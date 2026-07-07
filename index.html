@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mariam Ustiashvili — solve to enter</title>
+  <meta name="description" content="The portfolio of Mariam Ustiashvili, locked behind a sudoku. Each block reveals one project.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230A0D1C'/%3E%3Ctext x='16' y='23' font-size='19' font-family='Arial Black' font-weight='900' text-anchor='middle' fill='%23FFB347'%3E9%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Fireworks layer -->
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <!-- Cheat sheet, folded into the corner -->
+  <aside class="cheat" id="cheat">
+    <button class="cheat-tab" id="cheat-tab" aria-expanded="false" aria-controls="cheat-panel">
+      Cheat sheet
+    </button>
+    <div class="cheat-panel" id="cheat-panel" hidden>
+      <p class="cheat-title">Not a sudoku person?</p>
+      <p class="cheat-note">No judgement. Here's the full answer — copy it in, or let me do it.</p>
+      <div class="cheat-grid" id="cheat-grid" aria-label="Solution grid"></div>
+      <button class="btn btn-solid" id="autosolve">Solve it for me</button>
+      <p class="cheat-small">Fills the board and opens everything.</p>
+    </div>
+  </aside>
+
+  <header class="masthead">
+    <p class="eyebrow">Portfolio · Puzzle Nº 1</p>
+    <h1 class="neon-sign">Mari<span class="flicker">a</span>m Ustiashvili</h1>
+    <p class="tagline" id="tagline"></p>
+    <div class="progress-row">
+      <span class="progress-lamps" id="progress-lamps" aria-hidden="true"></span>
+      <span class="progress-text" id="progress-text">0 of 6 blocks lit</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="arcade" aria-label="Sudoku puzzle">
+      <div class="board-frame">
+        <div class="board" id="board" role="grid" aria-label="6 by 6 sudoku board"></div>
+      </div>
+
+      <div class="pad" id="pad" aria-label="Number pad"></div>
+
+      <p class="how">
+        Classic rules: fill every row, column and 3×3 block with <strong>1–9</strong>.
+        Each finished block switches on one project below — most of the board is
+        already done for you. The <span class="amber">amber dashes</span> mark the
+        street — finish that diagonal to walk it.
+      </p>
+
+      <div class="board-actions">
+        <button class="btn" id="reset">Start over</button>
+        <button class="btn btn-street" id="street-btn" hidden>↟ Walk Education Street</button>
+      </div>
+    </section>
+
+    <section class="storefronts-wrap" aria-label="Projects">
+      <h2 class="street-heading"><span>Nine blocks, nine projects</span></h2>
+      <div class="storefronts" id="storefronts"></div>
+    </section>
+  </main>
+
+  <!-- Education Street overlay -->
+  <div class="street" id="street" hidden role="dialog" aria-modal="true" aria-label="Education Street">
+    <div class="street-sky" aria-hidden="true"></div>
+    <div class="street-viewport" id="street-viewport">
+      <div class="street-layer street-far" id="street-far" aria-hidden="true"></div>
+      <div class="street-layer street-mid" id="street-mid" aria-hidden="true"></div>
+      <div class="street-layer street-front" id="street-front"></div>
+    </div>
+    <div class="street-ui">
+      <p class="street-name">Education Street</p>
+      <p class="street-hint" id="street-hint">Use ← → or drag to walk</p>
+      <div class="street-controls">
+        <button class="btn street-move" id="street-left" aria-label="Walk left">←</button>
+        <button class="btn street-move" id="street-right" aria-label="Walk right">→</button>
+      </div>
+      <button class="btn street-close" id="street-close" aria-label="Leave the street">✕ Leave</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <footer class="footer">
+    <div class="footer-contact" id="footer-contact"></div>
+    <p>Built as a puzzle by Mariam Ustiashvili · No two visitors solve it the same way</p>
+  </footer>
+
+  <script src="js/content.js"></script>
+  <script src="js/fireworks.js"></script>
+  <script src="js/street.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

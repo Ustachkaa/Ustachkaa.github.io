@@ -1,0 +1,5 @@
+.playwright-mcp/
+*.png
+!assets/*.png
+Thumbs.db
+desktop.ini
