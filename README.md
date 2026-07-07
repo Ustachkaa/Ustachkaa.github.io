@@ -4,7 +4,7 @@ A portfolio locked behind a mini sudoku, live at **[ustachkaa.github.io](https:/
 
 ## How it works
 
-The homepage is a playable 9×9 sudoku on a night street. Most of the board is pre-filled, so each block only takes a few entries:
+The homepage is a playable 9×9 sudoku on a night street. A fresh puzzle is dealt for every visitor (returning visitors resume theirs; "Start over" deals a new one), and most of the board is pre-filled so each block only takes a few entries:
 
 - **Complete a 3×3 block** → fireworks, and one of the nine project storefronts below the board switches on. The project grid mirrors the sudoku's block layout, and a finished block becomes clickable — it jumps to its project.
 - **Complete the marked diagonal** (the amber dashes) → *Education Street* opens: a tiny platformer. A pixel girl walks with ← →, jumps with space, dodges cones and collects stars. Near each milestone banner a building rises behind it — a grand campus at university, a schoolhouse at school, a giant sealed certificate, a construction crane for what's next — and her outfit changes to match (graduation gown, backpack, sash, hard hat).

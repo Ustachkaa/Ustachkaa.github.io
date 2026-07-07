@@ -10,36 +10,68 @@
 (() => {
   "use strict";
 
-  /* ---------- the puzzle (generated & verified offline) ---------- */
-
-  const SOLUTION = [
-    [6, 9, 7, 4, 8, 3, 5, 1, 2],
-    [5, 1, 2, 7, 6, 9, 8, 3, 4],
-    [8, 3, 4, 2, 5, 1, 6, 9, 7],
-    [1, 2, 6, 8, 9, 7, 3, 4, 5],
-    [3, 4, 5, 6, 1, 2, 9, 7, 8],
-    [9, 7, 8, 5, 3, 4, 1, 2, 6],
-    [2, 6, 9, 3, 7, 8, 4, 5, 1],
-    [4, 5, 1, 9, 2, 6, 7, 8, 3],
-    [7, 8, 3, 1, 4, 5, 2, 6, 9]
-  ];
-
-  const GIVEN = [
-    [0, 1, 1, 0, 1, 1, 0, 1, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [0, 1, 1, 1, 1, 1, 1, 0, 1],
-    [1, 1, 0, 0, 1, 1, 1, 0, 1],
-    [1, 0, 1, 1, 1, 1, 1, 1, 0],
-    [0, 1, 1, 1, 0, 0, 1, 0, 1],
-    [0, 1, 1, 1, 0, 1, 0, 1, 1],
-    [1, 0, 1, 1, 0, 0, 1, 0, 1],
-    [0, 1, 1, 1, 1, 1, 1, 1, 0]
-  ];
-
   const SIZE = 9;
   const BOX = 3;
   const boxOf = (r, c) => Math.floor(r / BOX) * BOX + Math.floor(c / BOX);
-  const STORAGE_KEY = "mariam-sudoku-portfolio-v2";
+  const STORAGE_KEY = "mariam-sudoku-portfolio-v3";
+
+  /* ---------- puzzle generator: a fresh board for every visitor ----------
+     Start from a known-valid grid, then relabel the digits and shuffle
+     bands, stacks, and the rows/columns inside them — every one of those
+     moves keeps the sudoku valid. The givens mask leaves exactly 3 cells
+     empty per block (fast to finish) and most of the diagonal open (the
+     street has to be earned). Entries are checked against the stored
+     solution, so the puzzle never needs to be uniquely solvable. */
+
+  function shuffled(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function generatePuzzle() {
+    const base = Array.from({ length: SIZE }, (_, r) =>
+      Array.from({ length: SIZE }, (_, c) => (r * BOX + Math.floor(r / BOX) + c) % SIZE + 1));
+
+    const digits = shuffled([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    const lineOrder = () =>
+      shuffled([0, 1, 2]).flatMap(band => shuffled([0, 1, 2]).map(i => band * BOX + i));
+    const rowOrder = lineOrder();
+    const colOrder = lineOrder();
+
+    const solution = Array.from({ length: SIZE }, (_, r) =>
+      Array.from({ length: SIZE }, (_, c) => digits[base[rowOrder[r]][colOrder[c]] - 1]));
+
+    /* givens mask: most of the diagonal empty, then top every block up to 3 */
+    const empties = new Set();
+    shuffled([0, 1, 2, 3, 4, 5, 6, 7, 8]).slice(0, 6).forEach(i => empties.add(i * SIZE + i));
+    for (let b = 0; b < SIZE; b++) {
+      const r0 = Math.floor(b / BOX) * BOX, c0 = (b % BOX) * BOX;
+      const cells = [];
+      for (let r = r0; r < r0 + BOX; r++)
+        for (let c = c0; c < c0 + BOX; c++) cells.push(r * SIZE + c);
+      const have = cells.filter(i => empties.has(i)).length;
+      shuffled(cells.filter(i => !empties.has(i))).slice(0, Math.max(3 - have, 0))
+        .forEach(i => empties.add(i));
+    }
+    const given = Array.from({ length: SIZE }, (_, r) =>
+      Array.from({ length: SIZE }, (_, c) => (empties.has(r * SIZE + c) ? 0 : 1)));
+
+    return { solution, given };
+  }
+
+  /* resume a saved puzzle, or deal a fresh one */
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch (e) { /* fresh deal */ }
+  if (saved && (!Array.isArray(saved.solution) || saved.solution.length !== SIZE ||
+                !Array.isArray(saved.given) || !Array.isArray(saved.values))) saved = null;
+
+  const deal = saved ? { solution: saved.solution, given: saved.given } : generatePuzzle();
+  const SOLUTION = deal.solution;
+  const GIVEN = deal.given;
 
   /* ---------- state ---------- */
 
@@ -347,14 +379,14 @@
   function save() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        solution: SOLUTION, given: GIVEN,
         values, lit: [...litBoxes], diagDone, solved
       }));
     } catch (e) { /* private browsing — play on without saving */ }
   }
 
   function restore() {
-    let data;
-    try { data = JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch (e) { return; }
+    const data = saved;
     if (!data || !Array.isArray(data.values) || data.values.length !== SIZE) return;
 
     values = data.values;
