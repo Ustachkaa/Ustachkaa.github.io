@@ -74,16 +74,14 @@
   const legR = root.querySelector(".cat-leg-right");
 
   /* ---------- state ---------- */
+  /* he lives next to the girl with the headphones (position in CSS) */
 
-  let catX = window.innerWidth * 0.62;      // where he currently sits
   let mouseX = -1, mouseY = -1;
   let lastMove = Date.now();
   let lastSwat = 0;
   let judgeUntil = 0;
   let speedEma = 0;
   let prevMX = 0, prevMY = 0;
-
-  root.style.left = catX + "px";
 
   /* eyes follow the cursor; head tilts a little */
   function look() {
@@ -157,24 +155,4 @@
     }, 3500 + Math.random() * 5500);
   })();
 
-  /* now and then, wander somewhere else along the bottom */
-  if (!reduced) {
-    (function wander() {
-      setTimeout(() => {
-        if (!root.classList.contains("sleeping")) {
-          const margin = 140;                          // stay off the corner widgets
-          catX = margin + Math.random() * (window.innerWidth - margin * 2 - 96);
-          root.classList.add("walking");
-          root.style.left = catX + "px";
-          setTimeout(() => root.classList.remove("walking"), 2600);
-        }
-        wander();
-      }, 16000 + Math.random() * 26000);
-    })();
-  }
-
-  window.addEventListener("resize", () => {
-    catX = Math.min(catX, window.innerWidth - 110);
-    root.style.left = catX + "px";
-  });
 })();

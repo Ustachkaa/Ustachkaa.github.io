@@ -1042,14 +1042,14 @@ body {
 
 /* ---------- the orange cat ---------- */
 
+/* he sits at the girl's feet, bottom-left */
 .cat {
   position: fixed;
   bottom: -6px;
-  left: 60vw;
+  left: 118px;
   z-index: 50;
   pointer-events: none;
   filter: drop-shadow(0 6px 14px rgba(0,0,0,.45));
-  transition: left 2.6s ease-in-out;
 }
 
 .cat svg { display: block; }
@@ -1063,13 +1063,6 @@ body {
 @keyframes tail-swish {
   0%, 100% { transform: translate(92px, 96px) rotate(0deg); }
   50% { transform: translate(92px, 96px) rotate(14deg); }
-}
-
-.cat.walking { animation: cat-bob .5s infinite ease-in-out; }
-
-@keyframes cat-bob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
 }
 
 /* eyelids: open by default, half-closed when judging, shut asleep */
@@ -1126,9 +1119,13 @@ body {
   100% { transform: translateY(-16px); opacity: 0; }
 }
 
+@media (max-width: 700px) {
+  .cat { left: 86px; }
+  .cat svg { width: 76px; height: 70px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .cat { transition: none; }
-  .cat-tail, .cat.walking, .cat.sleeping .cat-zzz { animation: none; }
+  .cat-tail, .cat.sleeping .cat-zzz { animation: none; }
 }
 
 /* ---------- toast ---------- */
