@@ -32,14 +32,13 @@ const Street = (() => {
 
   const SCALE = 4;                 // sprite is 12×16 pixels, drawn ×4
   const PAL = {
-    k: "#14101E",  // outline / shoes
-    h: "#4A2B37",  // hair
+    k: "#14101E",  // outline / shoes / eyeliner
+    h: "#B79762",  // dirty blonde hair
     s: "#F2C79E",  // skin
-    d: "#FF5C8A",  // dress
-    t: "#55E6FF",  // tights
-    w: "#EDEBF7",  // collar
-    g: "#22283F",  // graduation gown
-    c: "#FFB347",  // amber: cap, sash, helmet
+    w: "#22283F",  // tank top (ink, like the DJ girl's)
+    j: "#45619B",  // jeans
+    g: "#2E3557",  // graduation gown
+    c: "#FFB347",  // amber: cap, sash, helmet, tank print
     v: "#8B7CF7"   // violet: backpack
   };
 
@@ -50,19 +49,19 @@ const Street = (() => {
     "..hsksskh...",
     "..hsssssh...",
     "...ssss.....",
-    "...wddw.....",
-    "..dddddd....",
-    ".sdddddds...",
-    "..dddddd....",
-    "..dddddd....",
-    ".dddddddd..."
+    "...wwww.....",
+    "..wwcwww....",
+    ".swwwwwws...",
+    "..wwwwww....",
+    "..jjjjjj....",
+    "..jjjjjj...."
   ];
 
   const LEGS = {
-    idle: ["...t..t.....", "...t..t.....", "...t..t.....", "..kk..kk...."],
-    walk1: ["..t....t....", "..t....t....", ".t......t...", ".kk.....kk.."],
-    walk2: ["....tt......", "...t..t.....", "...t...t....", "..kk...kk..."],
-    jump: ["...tt.tt....", "...t...t....", "..kk...kk...", "............"]
+    idle: ["...j..j.....", "...j..j.....", "...j..j.....", "..kk..kk...."],
+    walk1: ["..j....j....", "..j....j....", ".j......j...", ".kk.....kk.."],
+    walk2: ["....jj......", "...j..j.....", "...j...j....", "..kk...kk..."],
+    jump: ["...jj.jj....", "...j...j....", "..kk...kk...", "............"]
   };
 
   function frameGrid(legs) {
@@ -73,9 +72,9 @@ const Street = (() => {
   function applyOutfit(grid, outfit) {
     const set = (r, c, ch) => { if (grid[r] && grid[r][c] !== undefined) grid[r][c] = ch; };
     if (outfit === "university") {
-      for (let r = 0; r < grid.length; r++)
+      for (let r = 6; r < grid.length; r++)      // gown over tank and jeans
         for (let c = 0; c < 12; c++)
-          if (grid[r][c] === "d") grid[r][c] = "g";
+          if (grid[r][c] === "w" || grid[r][c] === "j" || grid[r][c] === "c") grid[r][c] = "g";
       grid[0] = "..ccccccc...".split("");        // mortarboard
       set(1, 9, "c"); set(2, 9, "c");            // tassel
     } else if (outfit === "school") {
