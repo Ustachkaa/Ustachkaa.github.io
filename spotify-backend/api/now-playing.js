@@ -16,9 +16,13 @@ const TOKEN_URL = "https://accounts.spotify.com/api/token";
 const NOW_URL = "https://api.spotify.com/v1/me/player/currently-playing";
 const RECENT_URL = "https://api.spotify.com/v1/me/player/recently-played?limit=1";
 
+/* trim defensively: env values added from a Windows shell can
+   arrive with a stray carriage return attached */
+const env = (name) => (process.env[name] || "").trim();
+
 async function getAccessToken() {
   const basic = Buffer.from(
-    `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`
+    `${env("SPOTIFY_CLIENT_ID")}:${env("SPOTIFY_CLIENT_SECRET")}`
   ).toString("base64");
 
   const r = await fetch(TOKEN_URL, {
@@ -29,7 +33,7 @@ async function getAccessToken() {
     },
     body: new URLSearchParams({
       grant_type: "refresh_token",
-      refresh_token: process.env.SPOTIFY_REFRESH_TOKEN
+      refresh_token: env("SPOTIFY_REFRESH_TOKEN")
     })
   });
   if (!r.ok) throw new Error(`token refresh failed: ${r.status}`);
@@ -73,6 +77,13 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ isPlaying: false });
   } catch (e) {
-    return res.status(502).json({ error: String(e.message || e) });
+    return res.status(502).json({
+      error: String(e.message || e),
+      env: {
+        id: Boolean(process.env.SPOTIFY_CLIENT_ID),
+        secret: Boolean(process.env.SPOTIFY_CLIENT_SECRET),
+        refresh: Boolean(process.env.SPOTIFY_REFRESH_TOKEN)
+      }
+    });
   }
 }

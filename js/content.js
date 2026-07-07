@@ -101,12 +101,13 @@ const PORTFOLIO = {
      the id is the part after /track/ (before any ?).
      ------------------------------------------------------------ */
   music: {
-    endpoint: "",
+    endpoint: "https://mariam-now-playing.vercel.app/api/now-playing",
+    /* shown only if the endpoint can't be reached */
     fallback: {
-      title: "Pick my anthem in content.js",
-      artist: "Mariam",
-      trackId: "",          // e.g. "3AJwUDP919kvQ9QcozQPxg"
-      albumArt: ""
+      title: "Sweet Child O' Mine",
+      artist: "Guns N' Roses",
+      trackId: "7snQQk1zcKl8gZ92AnueZW",
+      albumArt: "https://i.scdn.co/image/ab67616d0000485121ebf49b3292c3f0f575f0f5"
     }
   },
 
