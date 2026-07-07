@@ -1040,6 +1040,97 @@ body {
   .globe { width: 168px; height: 168px; }
 }
 
+/* ---------- the orange cat ---------- */
+
+.cat {
+  position: fixed;
+  bottom: -6px;
+  left: 60vw;
+  z-index: 50;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,.45));
+  transition: left 2.6s ease-in-out;
+}
+
+.cat svg { display: block; }
+
+/* tail: always thinking */
+.cat-tail {
+  transform: translate(92px, 96px);
+  animation: tail-swish 3.2s infinite ease-in-out;
+}
+
+@keyframes tail-swish {
+  0%, 100% { transform: translate(92px, 96px) rotate(0deg); }
+  50% { transform: translate(92px, 96px) rotate(14deg); }
+}
+
+.cat.walking { animation: cat-bob .5s infinite ease-in-out; }
+
+@keyframes cat-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* eyelids: open by default, half-closed when judging, shut asleep */
+.cat-lid {
+  transform: translateY(-4px);
+  transition: transform .25s;
+}
+
+.cat.judging .cat-lid { transform: translateY(1.5px); }
+.cat.blinking .cat-lid { transform: translateY(6px); }
+.cat.sleeping .cat-lid { transform: translateY(6px); }
+
+.cat.judging .cat-pupil ellipse { rx: 1.2; }
+
+/* the swat */
+.cat-leg { transform-origin: 60px 78px; }
+
+.cat-leg-left { transform-origin: 48px 78px; }
+.cat-leg-right { transform-origin: 72px 78px; }
+
+.cat-leg.swatting { animation: swat .5s ease-in-out; }
+
+.cat-leg-left.swatting { animation-name: swat-left; }
+
+@keyframes swat {
+  0%, 100% { transform: rotate(0deg); }
+  35% { transform: rotate(58deg) translateY(-6px); }
+}
+
+@keyframes swat-left {
+  0%, 100% { transform: rotate(0deg); }
+  35% { transform: rotate(-58deg) translateY(-6px); }
+}
+
+/* dreams */
+.cat-zzz {
+  position: absolute;
+  top: -18px;
+  right: -4px;
+  font-size: 13px;
+  letter-spacing: .2em;
+  color: var(--muted);
+  opacity: 0;
+}
+
+.cat.sleeping .cat-zzz {
+  opacity: 1;
+  animation: zzz-float 2.4s infinite ease-in-out;
+}
+
+@keyframes zzz-float {
+  0% { transform: translateY(0); opacity: 0; }
+  30% { opacity: .9; }
+  100% { transform: translateY(-16px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cat { transition: none; }
+  .cat-tail, .cat.walking, .cat.sleeping .cat-zzz { animation: none; }
+}
+
 /* ---------- toast ---------- */
 
 .toast {
