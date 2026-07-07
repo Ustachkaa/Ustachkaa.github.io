@@ -164,16 +164,39 @@
     const store = document.createElement("article");
     store.className = "store";
     store.id = "store-" + i;
+    const hasDetails = Array.isArray(p.details) && p.details.length;
     store.innerHTML = `
       <h3 class="store-sign">${p.sign}</h3>
       <div class="store-body">
         ${p.tag ? `<div class="store-item-meta">${p.tag}</div>` : ""}
         ${p.note ? `<p class="store-item-note">${p.note}</p>` : ""}
+        ${hasDetails ? `
+          <button class="store-more" aria-expanded="false" aria-controls="store-details-${i}">More about this ▾</button>
+          <div class="store-details" id="store-details-${i}" hidden>
+            ${p.details.map(par => `<p>${par}</p>`).join("")}
+          </div>` : ""}
         ${p.href ? `<p class="store-link"><a href="${p.href}" target="_blank" rel="noopener">Visit ↗</a></p>` : ""}
       </div>
       <div class="store-shutter"><span>Block ${i + 1} opens this</span></div>`;
     storefrontsEl.appendChild(store);
   });
+
+  /* expand / collapse a project card once it's unlocked */
+  storefrontsEl.addEventListener("click", (e) => {
+    const btn = e.target.closest(".store-more");
+    if (!btn) return;
+    const details = document.getElementById(btn.getAttribute("aria-controls"));
+    const open = details.hidden;
+    details.hidden = !open;
+    btn.setAttribute("aria-expanded", String(open));
+    btn.textContent = open ? "Less ▴" : "More about this ▾";
+    btn.closest(".store").classList.toggle("open", open);
+  });
+
+  /* ---------- about me (always visible) ---------- */
+
+  document.getElementById("about").innerHTML =
+    (PORTFOLIO.about || []).map(par => `<p>${par}</p>`).join("");
 
   /* ---------- footer contact (always visible) ---------- */
 

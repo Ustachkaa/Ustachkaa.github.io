@@ -11,6 +11,15 @@ const PORTFOLIO = {
     "reveals one project — or grab the cheat sheet in the corner.",
 
   /* ------------------------------------------------------------
+     ABOUT ME — always visible, right under the board.
+     One string per paragraph.
+     ------------------------------------------------------------ */
+  about: [
+    "Hi, I'm Mariam — I like problems that look like games and games that are secretly problems.",
+    "Real introduction coming soon. (Mariam: replace these paragraphs with who you are, what you do, and what you're looking for.)"
+  ],
+
+  /* ------------------------------------------------------------
      THE NINE PROJECTS
      They sit in a 3×3 grid that mirrors the sudoku blocks:
      finishing the top-left block lights project 1, and so on.
@@ -22,55 +31,85 @@ const PORTFOLIO = {
       sign: "SideQuest",
       tag: "Mobile app · in progress",
       note: "Add a one-line description of what SideQuest is and does.",
-      href: "https://github.com/playmode-labs"
+      href: "https://github.com/playmode-labs",
+      details: [
+        "The full story: what problem it solves, who it's for, and what state it's in.",
+        "What you built it with, what you'd do differently, what's next."
+      ]
     },
     {
       sign: "DemoBlaze Automation",
       tag: "QA automation · Selenium",
       note: "Automated test suite for the DemoBlaze demo shop. Add details.",
-      href: ""
+      href: "",
+      details: [
+        "Describe the test strategy: what flows are covered, how the suite is structured, what it caught.",
+        "Tools and frameworks used, and how it runs."
+      ]
     },
     {
       sign: "Saucedemo Testing",
       tag: "Software testing",
       note: "Testing project for the Saucedemo store. Add details.",
-      href: "https://github.com/Ustachkaa/SaucedemoSoftwareTestingProject"
+      href: "https://github.com/Ustachkaa/SaucedemoSoftwareTestingProject",
+      details: [
+        "Manual and automated coverage, interesting bugs found, lessons learned."
+      ]
     },
     {
       sign: "Chameleon Color Detector",
       tag: "Computer vision",
       note: "Add a one-line description and a link.",
-      href: ""
+      href: "",
+      details: [
+        "How it detects color, what it was built for, and a demo if you have one."
+      ]
     },
     {
       sign: "Movie Genre Identifier",
       tag: "NLP · machine learning",
       note: "Add a one-line description and a link.",
-      href: ""
+      href: "",
+      details: [
+        "The dataset, the model, the accuracy — and what you'd try next."
+      ]
     },
     {
       sign: "Student Den",
       tag: "Student platform",
       note: "Add a one-line description and a link.",
-      href: ""
+      href: "",
+      details: [
+        "What students use it for, the stack, and your role in it."
+      ]
     },
     {
       sign: "ML-Agents Experiments",
       tag: "Unity · reinforcement learning",
       note: "Trained agents with rays, sensors and continuous control. Add details.",
-      href: ""
+      href: "",
+      details: [
+        "The environments you trained, reward shaping, and what the agents learned to do."
+      ]
     },
     {
       sign: "Queen of Hearts",
       tag: "CSS art",
       note: "A playing card drawn entirely in CSS. Add a link.",
-      href: ""
+      href: "",
+      details: [
+        "Why CSS art, how the card is layered, and a screenshot or live link."
+      ]
     },
     {
       sign: "This Website",
       tag: "Vanilla JS · you're playing it",
       note: "A portfolio you have to solve. View source — it's all there.",
-      href: "https://github.com/Ustachkaa/Ustachkaa.github.io"
+      href: "https://github.com/Ustachkaa/Ustachkaa.github.io",
+      details: [
+        "A 9×9 sudoku dealt fresh for every visitor, nine project storefronts that light up per solved block, a platformer Education Street behind the diagonal, live Spotify in the corner — all vanilla HTML, CSS and JavaScript with no build step.",
+        "Designed and built together with Claude."
+      ]
     }
   ],
 

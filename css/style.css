@@ -332,6 +332,26 @@ body {
   box-shadow: 0 0 18px rgba(255,179,71,.35);
 }
 
+/* ---------- about me ---------- */
+
+.about-wrap {
+  max-width: 660px;
+  margin: 70px auto 0;
+  padding: 0 20px;
+}
+
+.about {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 30px;
+  font-size: 16px;
+  color: var(--chalk);
+  box-shadow: 0 0 40px rgba(255,179,71,.04);
+}
+
+.about p + p { margin-top: 12px; }
+
 /* ---------- storefronts ---------- */
 
 .storefronts-wrap {
@@ -443,6 +463,45 @@ body {
 .store-item-note { margin-top: 8px; }
 
 .store-link { margin-top: 12px; }
+
+.store-more {
+  display: block;
+  margin-top: 12px;
+  padding: 0;
+  background: none;
+  border: 0;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  color: var(--amber);
+  cursor: pointer;
+  border-bottom: 1px dashed rgba(255,179,71,.4);
+  padding-bottom: 2px;
+  transition: border-color .15s;
+}
+
+.store-more:hover { border-bottom-color: var(--amber); }
+
+.store-details {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+  font-size: 14px;
+  color: var(--muted);
+  animation: details-in .35s ease;
+}
+
+.store-details p { color: var(--muted); }
+
+.store-details p + p { margin-top: 8px; }
+
+@keyframes details-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.store.open { border-color: rgba(255,179,71,.6); }
 
 .store-body a {
   color: var(--cyan);
@@ -1104,4 +1163,5 @@ body {
   .store-shutter { transition: none; }
   .building { transition: opacity .3s; }
   .toast { transition: opacity .2s; }
+  .store-details { animation: none; }
 }
