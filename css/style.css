@@ -563,7 +563,8 @@ body {
   transform-origin: 50% 100%;
 }
 
-.jukebox.live .jukebox-girl { animation-duration: 1.1s; }
+.jukebox.live .jukebox-girl,
+.jukebox.audible .jukebox-girl { animation-duration: 1.1s; }
 
 @keyframes groove {
   0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -572,13 +573,15 @@ body {
 
 .jukebox-cup { transition: filter .3s; }
 
-.jukebox.live .jukebox-cup {
+.jukebox.live .jukebox-cup,
+.jukebox.audible .jukebox-cup {
   filter: drop-shadow(0 0 6px rgba(255,179,71,.9));
 }
 
 .jukebox-notes { opacity: 0; transition: opacity .4s; }
 
-.jukebox.live .jukebox-notes {
+.jukebox.live .jukebox-notes,
+.jukebox.audible .jukebox-notes {
   opacity: 1;
   animation: notes-float 2s infinite ease-in-out;
 }
@@ -657,9 +660,12 @@ body {
   transform-origin: bottom;
 }
 
-.jukebox.live .eq span { animation: eq-bounce 1s infinite ease-in-out; }
-.jukebox.live .eq span:nth-child(2) { animation-delay: .25s; }
-.jukebox.live .eq span:nth-child(3) { animation-delay: .5s; }
+.jukebox.live .eq span,
+.jukebox.audible .eq span { animation: eq-bounce 1s infinite ease-in-out; }
+.jukebox.live .eq span:nth-child(2),
+.jukebox.audible .eq span:nth-child(2) { animation-delay: .25s; }
+.jukebox.live .eq span:nth-child(3),
+.jukebox.audible .eq span:nth-child(3) { animation-delay: .5s; }
 
 @keyframes eq-bounce {
   0%, 100% { transform: scaleY(.25); }
@@ -672,9 +678,17 @@ body {
   font-size: 13px;
 }
 
-.jukebox-embed { margin-top: 12px; }
+/* the Spotify player itself stays out of sight — our play/pause
+   button is the only control the visitor sees */
+.jukebox-embed {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
 
-.jukebox-embed iframe { border-radius: 10px; display: block; }
+.jukebox-listen:disabled { opacity: .6; cursor: wait; }
 
 @media (max-width: 700px) {
   .jukebox-girl { width: 74px; height: 107px; }

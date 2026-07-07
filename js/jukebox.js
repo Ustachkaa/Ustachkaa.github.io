@@ -25,7 +25,6 @@
   const embedWrap = document.getElementById("jukebox-embed");
 
   let current = null;
-  let embedTrackId = null;
 
   function fallbackData() {
     const f = cfg.fallback || {};
@@ -47,6 +46,8 @@
     else artEl.hidden = true;
     root.classList.toggle("live", Boolean(d.isPlaying));
     listenBtn.hidden = !d.trackId;
+    // Mariam moved on to another song: offer it fresh unless one is playing
+    if (!isPlaying && loadedTrackId && d.trackId !== loadedTrackId) setButton("idle");
   }
 
   async function poll() {
@@ -62,32 +63,88 @@
     }
   }
 
-  /* the embedded player mounts on demand so polling never
-     restarts a song the visitor is already playing */
-  function mountEmbed(trackId) {
-    if (embedTrackId === trackId) return;
-    embedTrackId = trackId;
-    embedWrap.innerHTML =
-      `<iframe src="https://open.spotify.com/embed/track/${encodeURIComponent(trackId)}?theme=0"
-        width="100%" height="80" frameborder="0" title="Play this song on Spotify"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy"></iframe>`;
+  /* ---------- playback: Spotify's iframe API drives a hidden
+     player, our button just shows play / pause and reacts ---------- */
+
+  let controller = null;
+  let loadedTrackId = null;
+  let isPlaying = false;
+  let apiPromise = null;
+
+  function setButton(state) {
+    // state: "idle" | "loading" | "playing" | "paused"
+    listenBtn.disabled = state === "loading";
+    listenBtn.textContent =
+      state === "playing" ? "⏸ Pause" :
+      state === "paused" ? "▶ Resume" :
+      state === "loading" ? "· · ·" :
+      "▶ Listen with Mariam";
+    root.classList.toggle("audible", state === "playing");
+  }
+
+  function ensureApi() {
+    if (apiPromise) return apiPromise;
+    apiPromise = new Promise((resolve, reject) => {
+      window.onSpotifyIframeApiReady = resolve;
+      const s = document.createElement("script");
+      s.src = "https://open.spotify.com/embed/iframe-api/v1";
+      s.async = true;
+      s.onerror = () => reject(new Error("spotify api blocked"));
+      document.body.appendChild(s);
+    });
+    return apiPromise;
+  }
+
+  async function play(trackId) {
+    setButton("loading");
+    try {
+      const api = await ensureApi();
+      if (!controller) {
+        await new Promise((resolve) => {
+          const mount = document.createElement("div");
+          embedWrap.appendChild(mount);
+          api.createController(mount,
+            { uri: `spotify:track:${trackId}`, width: "100%", height: "80" },
+            (c) => {
+              controller = c;
+              controller.addListener("playback_update", (e) => {
+                isPlaying = !e.data.isPaused;
+                setButton(isPlaying ? "playing" : "paused");
+              });
+              controller.addListener("ready", resolve);
+            });
+        });
+        loadedTrackId = trackId;
+        controller.play();
+      } else if (loadedTrackId !== trackId) {
+        loadedTrackId = trackId;
+        controller.loadUri(`spotify:track:${trackId}`);
+        controller.play();
+      } else {
+        controller.togglePlay();
+      }
+    } catch (e) {
+      // script blocked (ad blocker etc.) — open the track on Spotify instead
+      setButton("idle");
+      if (current && current.trackId)
+        window.open(`https://open.spotify.com/track/${current.trackId}`, "_blank", "noopener");
+    }
   }
 
   listenBtn.addEventListener("click", () => {
     if (!current || !current.trackId) return;
-    mountEmbed(current.trackId);
-    listenBtn.hidden = true;
+    if (controller && loadedTrackId === current.trackId) {
+      controller.togglePlay();
+    } else {
+      play(current.trackId);
+    }
   });
 
   toggle.addEventListener("click", () => {
     const open = panel.hidden;
     panel.hidden = !open;
     toggle.setAttribute("aria-expanded", String(open));
-    if (open) {
-      poll();
-      if (current && current.trackId && !embedTrackId) listenBtn.hidden = false;
-    }
+    if (open) poll();
   });
 
   render(fallbackData());
