@@ -125,8 +125,7 @@
     // a finished block becomes a doorway to its project
     const b = boxOf(r, c);
     if (litBoxes.has(b)) {
-      document.getElementById("store-" + b)
-        .scrollIntoView({ behavior: "smooth", block: "center" });
+      openStoreModal(b, document.getElementById("store-" + b));
       return;
     }
     if (!GIVEN[r][c]) select(r, c);
@@ -164,39 +163,79 @@
     const store = document.createElement("article");
     store.className = "store";
     store.id = "store-" + i;
-    const hasDetails = Array.isArray(p.details) && p.details.length;
     store.innerHTML = `
       <h3 class="store-sign">${p.sign}</h3>
       <div class="store-body">
         ${p.tag ? `<div class="store-item-meta">${p.tag}</div>` : ""}
         ${p.note ? `<p class="store-item-note">${p.note}</p>` : ""}
-        ${hasDetails ? `
-          <button class="store-more" aria-expanded="false" aria-controls="store-details-${i}">More about this ▾</button>
-          <div class="store-details" id="store-details-${i}" hidden>
-            ${p.details.map(par => `<p>${par}</p>`).join("")}
-          </div>` : ""}
-        ${p.href ? `<p class="store-link"><a href="${p.href}" target="_blank" rel="noopener">Visit ↗</a></p>` : ""}
+        <button class="store-more" aria-haspopup="dialog">More about this ↗</button>
       </div>
       <div class="store-shutter"><span>Block ${i + 1} opens this</span></div>`;
     storefrontsEl.appendChild(store);
   });
 
-  /* expand / collapse a project card once it's unlocked —
-     the whole card is clickable, not just the More button */
+  /* ---------- the project window: grows out of a clicked card ---------- */
+
+  const modal = document.getElementById("store-modal");
+  const modalPanel = document.getElementById("store-modal-panel");
+  const modalSign = document.getElementById("store-modal-sign");
+  const modalTag = document.getElementById("store-modal-tag");
+  const modalBody = document.getElementById("store-modal-body");
+  const modalLink = document.getElementById("store-modal-link");
+  const modalClose = document.getElementById("store-modal-close");
+  const modalBackdrop = document.getElementById("store-modal-backdrop");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let lastFocus = null;
+
+  function openStoreModal(i, cardEl) {
+    const p = PORTFOLIO.projects[i];
+    modalSign.textContent = p.sign;
+    modalTag.textContent = p.tag || "";
+    modalTag.hidden = !p.tag;
+    modalBody.innerHTML =
+      (p.note ? `<p class="store-modal-note">${p.note}</p>` : "") +
+      (p.details || []).map(par => `<p>${par}</p>`).join("");
+    modalLink.innerHTML = p.href
+      ? `<a href="${p.href}" target="_blank" rel="noopener">Visit this project ↗</a>` : "";
+
+    lastFocus = document.activeElement;
+    modal.hidden = false;
+    document.body.style.overflow = "hidden";
+
+    if (!reducedMotion && cardEl) {
+      /* start at the card's size and position, grow to center */
+      const from = cardEl.getBoundingClientRect();
+      const to = modalPanel.getBoundingClientRect();
+      const dx = from.left + from.width / 2 - (to.left + to.width / 2);
+      const dy = from.top + from.height / 2 - (to.top + to.height / 2);
+      modalPanel.style.transition = "none";
+      modalPanel.style.transform =
+        `translate(${dx}px, ${dy}px) scale(${from.width / to.width}, ${from.height / to.height})`;
+      modalPanel.style.opacity = ".35";
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        modalPanel.style.transition = "";
+        modalPanel.style.transform = "";
+        modalPanel.style.opacity = "";
+      }));
+    }
+    modalClose.focus();
+  }
+
+  function closeStoreModal() {
+    if (modal.hidden) return;
+    modal.hidden = true;
+    document.body.style.overflow = "";
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  modalClose.addEventListener("click", closeStoreModal);
+  modalBackdrop.addEventListener("click", closeStoreModal);
+
   storefrontsEl.addEventListener("click", (e) => {
     if (e.target.closest("a")) return;               // links still just link
     const store = e.target.closest(".store");
     if (!store || !store.classList.contains("lit")) return;
-    const btn = store.querySelector(".store-more");
-    const details = store.querySelector(".store-details");
-    if (!details) return;
-    const open = details.hidden;
-    details.hidden = !open;
-    store.classList.toggle("open", open);
-    if (btn) {
-      btn.setAttribute("aria-expanded", String(open));
-      btn.textContent = open ? "Less ▴" : "More about this ▾";
-    }
+    openStoreModal(Number(store.id.replace("store-", "")), store);
   });
 
   /* ---------- about me (always visible) ---------- */
@@ -268,6 +307,10 @@
   }
 
   document.addEventListener("keydown", (e) => {
+    if (!modal.hidden) {
+      if (e.key === "Escape") closeStoreModal();
+      return;
+    }
     if (!document.getElementById("street").hidden) return;
     if (e.target.closest(".cheat")) return;
 

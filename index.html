@@ -171,6 +171,18 @@
     </div>
   </aside>
 
+  <!-- Project window: grows out of a clicked storefront -->
+  <div class="store-modal" id="store-modal" hidden>
+    <div class="store-modal-backdrop" id="store-modal-backdrop"></div>
+    <article class="store-modal-panel" id="store-modal-panel" role="dialog" aria-modal="true" aria-labelledby="store-modal-sign">
+      <button class="store-modal-close" id="store-modal-close" aria-label="Close project window">✕</button>
+      <h3 class="store-modal-sign" id="store-modal-sign"></h3>
+      <div class="store-item-meta store-modal-tag" id="store-modal-tag"></div>
+      <div class="store-modal-body" id="store-modal-body"></div>
+      <p class="store-modal-link" id="store-modal-link"></p>
+    </article>
+  </div>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <footer class="footer">
