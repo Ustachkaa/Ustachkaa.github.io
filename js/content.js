@@ -166,8 +166,14 @@ const PORTFOLIO = {
      ------------------------------------------------------------ */
   contact: [
     { label: "Email", value: "mariam.ustiashvili@ngt.ge", href: "mailto:mariam.ustiashvili@ngt.ge" },
-    { label: "GitHub", value: "github.com/Ustachkaa", href: "https://github.com/Ustachkaa" }
-    /* add LinkedIn when ready:
-    { label: "LinkedIn", value: "linkedin.com/in/your-handle", href: "https://www.linkedin.com/in/your-handle" } */
-  ]
+    { label: "GitHub", value: "github.com/Ustachkaa", href: "https://github.com/Ustachkaa" },
+    /* paste your profile URL into href to switch this on: */
+    { label: "LinkedIn", value: "linkedin.com/in/…", href: "" }
+  ],
+
+  /* ------------------------------------------------------------
+     INSTAGRAM — the button above the globe, bottom-right.
+     Paste your profile URL to switch it on; empty keeps it hidden.
+     ------------------------------------------------------------ */
+  instagram: ""
 };

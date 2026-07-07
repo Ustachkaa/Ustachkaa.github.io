@@ -259,9 +259,11 @@
 
   /* ---------- footer contact (always visible) ---------- */
 
-  contactEl.innerHTML = PORTFOLIO.contact.map(ct =>
-    `<a href="${ct.href}" target="_blank" rel="noopener"><span>${ct.label}</span>${ct.value}</a>`
-  ).join("");
+  contactEl.innerHTML = PORTFOLIO.contact
+    .filter(ct => ct.href)               // entries without a URL stay hidden
+    .map(ct =>
+      `<a href="${ct.href}" target="_blank" rel="noopener"><span>${ct.label}</span>${ct.value}</a>`
+    ).join("");
 
   /* ---------- cheat sheet ---------- */
 

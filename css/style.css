@@ -883,7 +883,8 @@ body {
   gap: 10px;
 }
 
-.geo-toggle {
+.geo-toggle,
+.geo-insta {
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -901,6 +902,14 @@ body {
 .geo-toggle:hover {
   border-color: var(--amber-dim);
   box-shadow: 0 8px 24px rgba(0,0,0,.45), 0 0 18px rgba(255,179,71,.25);
+  transform: translateY(-2px);
+}
+
+.geo-insta { color: var(--pink); }
+
+.geo-insta:hover {
+  border-color: var(--pink);
+  box-shadow: 0 8px 24px rgba(0,0,0,.45), 0 0 18px rgba(255,92,138,.3);
   transform: translateY(-2px);
 }
 

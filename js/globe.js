@@ -16,6 +16,13 @@
   const pin = document.getElementById("globe-pin");
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* the Instagram button above the globe, on when a URL is set */
+  const insta = document.getElementById("geo-insta");
+  if (typeof PORTFOLIO !== "undefined" && PORTFOLIO.instagram) {
+    insta.href = PORTFOLIO.instagram;
+    insta.hidden = false;
+  }
+
   /* real country outlines, generated from Natural Earth data */
   if (typeof WORLD_PATH === "string") {
     const land = document.createElementNS("http://www.w3.org/2000/svg", "path");
