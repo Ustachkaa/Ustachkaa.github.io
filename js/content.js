@@ -21,6 +21,14 @@ const PORTFOLIO = {
   ],
 
   /* ------------------------------------------------------------
+     VOICE INTRO — a recording of you reading the About text.
+     Record on your phone, save the file into the assets/ folder,
+     and put its path here (e.g. "assets/about-mariam.mp3" or .m4a).
+     Empty keeps the player hidden.
+     ------------------------------------------------------------ */
+  aboutAudio: "",
+
+  /* ------------------------------------------------------------
      THE NINE PROJECTS
      They sit in a 3×3 grid that mirrors the sudoku blocks:
      finishing the top-left block lights project 1, and so on.

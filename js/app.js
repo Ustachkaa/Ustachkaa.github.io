@@ -254,8 +254,39 @@
 
   /* ---------- about me (always visible) ---------- */
 
-  document.getElementById("about").innerHTML =
-    (PORTFOLIO.about || []).map(par => `<p>${par}</p>`).join("");
+  const aboutEl = document.getElementById("about");
+  aboutEl.innerHTML = (PORTFOLIO.about || []).map(par => `<p>${par}</p>`).join("");
+
+  /* voice intro: press play, hear Mariam say it herself */
+  if (PORTFOLIO.aboutAudio) {
+    const row = document.createElement("div");
+    row.className = "about-voice";
+    row.innerHTML = `
+      <button class="about-play" id="about-play" aria-label="Hear this in Mariam's voice">▶</button>
+      <div class="about-voice-meta">
+        <p class="about-voice-label">Hear it in my voice</p>
+        <div class="about-progress"><i id="about-progress-bar"></i></div>
+      </div>
+      <div class="eq" aria-hidden="true"><span></span><span></span><span></span></div>`;
+    aboutEl.appendChild(row);
+
+    const voice = new Audio(PORTFOLIO.aboutAudio);
+    voice.preload = "none";
+    const playBtn = document.getElementById("about-play");
+    const bar = document.getElementById("about-progress-bar");
+
+    playBtn.addEventListener("click", () => {
+      if (voice.paused) voice.play().catch(() => row.remove());
+      else voice.pause();
+    });
+    voice.addEventListener("play", () => { playBtn.textContent = "⏸"; row.classList.add("playing"); });
+    voice.addEventListener("pause", () => { playBtn.textContent = "▶"; row.classList.remove("playing"); });
+    voice.addEventListener("ended", () => { voice.currentTime = 0; });
+    voice.addEventListener("timeupdate", () => {
+      if (voice.duration) bar.style.width = (voice.currentTime / voice.duration * 100) + "%";
+    });
+    voice.addEventListener("error", () => row.remove());   // file missing — hide quietly
+  }
 
   /* ---------- footer contact (always visible) ---------- */
 
