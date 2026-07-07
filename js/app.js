@@ -181,16 +181,22 @@
     storefrontsEl.appendChild(store);
   });
 
-  /* expand / collapse a project card once it's unlocked */
+  /* expand / collapse a project card once it's unlocked —
+     the whole card is clickable, not just the More button */
   storefrontsEl.addEventListener("click", (e) => {
-    const btn = e.target.closest(".store-more");
-    if (!btn) return;
-    const details = document.getElementById(btn.getAttribute("aria-controls"));
+    if (e.target.closest("a")) return;               // links still just link
+    const store = e.target.closest(".store");
+    if (!store || !store.classList.contains("lit")) return;
+    const btn = store.querySelector(".store-more");
+    const details = store.querySelector(".store-details");
+    if (!details) return;
     const open = details.hidden;
     details.hidden = !open;
-    btn.setAttribute("aria-expanded", String(open));
-    btn.textContent = open ? "Less ▴" : "More about this ▾";
-    btn.closest(".store").classList.toggle("open", open);
+    store.classList.toggle("open", open);
+    if (btn) {
+      btn.setAttribute("aria-expanded", String(open));
+      btn.textContent = open ? "Less ▴" : "More about this ▾";
+    }
   });
 
   /* ---------- about me (always visible) ---------- */

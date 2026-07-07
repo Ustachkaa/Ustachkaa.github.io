@@ -15,8 +15,9 @@ const PORTFOLIO = {
      One string per paragraph.
      ------------------------------------------------------------ */
   about: [
-    "Hi, I'm Mariam — I like problems that look like games and games that are secretly problems.",
-    "Real introduction coming soon. (Mariam: replace these paragraphs with who you are, what you do, and what you're looking for.)"
+    "I'm Mariam Ustiashvili — a software engineer from Georgia who likes problems that look like games, and games that are secretly problems.",
+    "I studied Software Engineering at the University of Debrecen in Hungary, where I gravitated toward quality assurance and testing — I enjoy breaking software carefully so that users never see it break. Along the way I've automated test suites, trained Unity ML-Agents, classified movies with NLP, and built things for students like me.",
+    "This site is how I think: give people something playful, and keep the serious work just underneath. Every solved block below opens a piece of it."
   ],
 
   /* ------------------------------------------------------------
@@ -30,75 +31,73 @@ const PORTFOLIO = {
     {
       sign: "SideQuest",
       tag: "Mobile app · in progress",
-      note: "Add a one-line description of what SideQuest is and does.",
+      note: "A mobile side-project I'm building under the playmode-labs flag.",
       href: "https://github.com/playmode-labs",
       details: [
-        "The full story: what problem it solves, who it's for, and what state it's in.",
-        "What you built it with, what you'd do differently, what's next."
+        "Still under wraps — the repo goes public when it's ready. Ask me about it and I'll happily talk your ear off."
       ]
     },
     {
       sign: "DemoBlaze Automation",
       tag: "QA automation · Selenium",
-      note: "Automated test suite for the DemoBlaze demo shop. Add details.",
+      note: "An automated end-to-end test suite for the DemoBlaze demo shop.",
       href: "",
       details: [
-        "Describe the test strategy: what flows are covered, how the suite is structured, what it caught.",
-        "Tools and frameworks used, and how it runs."
+        "Covers the core shopping flows — browsing, cart, checkout — with automated UI tests built around Selenium, structured so new test cases drop in without touching the plumbing."
       ]
     },
     {
       sign: "Saucedemo Testing",
       tag: "Software testing",
-      note: "Testing project for the Saucedemo store. Add details.",
+      note: "A software-testing deep dive into the Saucedemo store.",
       href: "https://github.com/Ustachkaa/SaucedemoSoftwareTestingProject",
       details: [
-        "Manual and automated coverage, interesting bugs found, lessons learned."
+        "Test design, execution and reporting for the classic Saucedemo application — from exploratory passes to repeatable automated checks."
       ]
     },
     {
       sign: "Chameleon Color Detector",
       tag: "Computer vision",
-      note: "Add a one-line description and a link.",
+      note: "A chameleon that turns whatever color you show it.",
       href: "",
       details: [
-        "How it detects color, what it was built for, and a demo if you have one."
+        "A computer-vision toy: show it a color and the chameleon shifts to match. Equal parts image processing and fun."
       ]
     },
     {
       sign: "Movie Genre Identifier",
       tag: "NLP · machine learning",
-      note: "Add a one-line description and a link.",
+      note: "Guessing a film's genre from its description alone.",
       href: "",
       details: [
-        "The dataset, the model, the accuracy — and what you'd try next."
+        "An NLP project that classifies movies by their plot summaries — text preprocessing, feature extraction, and a classifier trained to tell a thriller from a romcom."
       ]
     },
     {
       sign: "Student Den",
       tag: "Student platform",
-      note: "Add a one-line description and a link.",
+      note: "A platform made for students, by a student.",
       href: "",
       details: [
-        "What students use it for, the stack, and your role in it."
+        "Built around what students actually need day to day — from finding their footing in a new city to finding each other."
       ]
     },
     {
       sign: "ML-Agents Experiments",
       tag: "Unity · reinforcement learning",
-      note: "Trained agents with rays, sensors and continuous control. Add details.",
+      note: "Teaching Unity agents to see, steer and survive.",
       href: "",
       details: [
-        "The environments you trained, reward shaping, and what the agents learned to do."
+        "A series of reinforcement-learning experiments in Unity ML-Agents — ray perception sensors, continuous control, and a hummingbird that learned to feed itself."
       ]
     },
     {
       sign: "Queen of Hearts",
       tag: "CSS art",
-      note: "A playing card drawn entirely in CSS. Add a link.",
+      note: "A playing card drawn entirely in CSS — no images.",
       href: "",
       details: [
-        "Why CSS art, how the card is layered, and a screenshot or live link."
+        "Every heart, curve and crown is a styled div. Pointless in the best way, and a great exercise in layout control."
       ]
     },
     {
@@ -125,10 +124,10 @@ const PORTFOLIO = {
        "future"      → building under construction, hard hat
      ------------------------------------------------------------ */
   education: [
-    { type: "school",      years: "20XX – 20XX", title: "High School", place: "City, Country", note: "Where it started." },
-    { type: "university",  years: "20XX – 20XX", title: "BSc — Your Degree", place: "University name", note: "Thesis, favourite courses, honours…" },
-    { type: "certificate", years: "20XX", title: "Certifications", place: "Issuer names", note: "List your certificates here." },
-    { type: "future",      years: "20XX – …", title: "What's next", place: "", note: "The street keeps going." }
+    { type: "school",      years: "20XX – 20XX", title: "High School", place: "Georgia", note: "Where the puzzle habit started." },
+    { type: "university",  years: "20XX – 20XX", title: "BSc Software Engineering", place: "University of Debrecen, Hungary", note: "Thesis: a mobile companion system for students." },
+    { type: "certificate", years: "Ongoing", title: "Certifications & Trainings", place: "", note: "The collection keeps growing — ask me about the latest." },
+    { type: "future",      years: "…", title: "What's next", place: "", note: "The street keeps going." }
   ],
 
   /* ------------------------------------------------------------
@@ -154,8 +153,9 @@ const PORTFOLIO = {
      CONTACT — always visible in the footer, no puzzle required.
      ------------------------------------------------------------ */
   contact: [
-    { label: "Email", value: "your@email.here", href: "mailto:your@email.here" },
-    { label: "GitHub", value: "github.com/Ustachkaa", href: "https://github.com/Ustachkaa" },
-    { label: "LinkedIn", value: "linkedin.com/in/your-handle", href: "https://linkedin.com" }
+    { label: "Email", value: "mariam.ustiashvili@ngt.ge", href: "mailto:mariam.ustiashvili@ngt.ge" },
+    { label: "GitHub", value: "github.com/Ustachkaa", href: "https://github.com/Ustachkaa" }
+    /* add LinkedIn when ready:
+    { label: "LinkedIn", value: "linkedin.com/in/your-handle", href: "https://www.linkedin.com/in/your-handle" } */
   ]
 };

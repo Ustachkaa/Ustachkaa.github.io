@@ -395,7 +395,15 @@ body {
   padding: 22px 20px;
   min-height: 160px;
   overflow: hidden;
-  transition: border-color .5s, box-shadow .5s;
+  transition: border-color .5s, box-shadow .5s, transform .2s;
+}
+
+/* an unlocked card invites a click */
+.store.lit { cursor: pointer; }
+
+.store.lit:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 40px rgba(0,0,0,.45), 0 0 34px rgba(255,179,71,.14);
 }
 
 .store-sign {
@@ -501,7 +509,16 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.store.open { border-color: rgba(255,179,71,.6); }
+.store.open {
+  border-color: rgba(255,179,71,.6);
+  animation: store-pop .3s ease;
+}
+
+@keyframes store-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.025); }
+  100% { transform: scale(1); }
+}
 
 .store-body a {
   color: var(--cyan);
@@ -1164,4 +1181,6 @@ body {
   .building { transition: opacity .3s; }
   .toast { transition: opacity .2s; }
   .store-details { animation: none; }
+  .store.open { animation: none; }
+  .store.lit:hover { transform: none; }
 }
