@@ -13,7 +13,7 @@
   const SIZE = 9;
   const BOX = 3;
   const boxOf = (r, c) => Math.floor(r / BOX) * BOX + Math.floor(c / BOX);
-  const STORAGE_KEY = "mariam-sudoku-portfolio-v3";
+  const STORAGE_KEY = "mariam-sudoku-portfolio-v4";
 
   /* ---------- puzzle generator: a fresh board for every visitor ----------
      Start from a known-valid grid, then relabel the digits and shuffle
@@ -45,9 +45,17 @@
     const solution = Array.from({ length: SIZE }, (_, r) =>
       Array.from({ length: SIZE }, (_, c) => digits[base[rowOrder[r]][colOrder[c]] - 1]));
 
-    /* givens mask: most of the diagonal empty, then top every block up to 3 */
+    /* givens mask: both diagonals mostly empty (the two streets have
+       to be earned), then top every block up to exactly 3 empties */
     const empties = new Set();
-    shuffled([0, 1, 2, 3, 4, 5, 6, 7, 8]).slice(0, 6).forEach(i => empties.add(i * SIZE + i));
+    const take = (cells, n) => shuffled(cells).slice(0, n).forEach(([r, c]) => empties.add(r * SIZE + c));
+    take([[0, 0], [1, 1], [2, 2]], 2);           // main diagonal, corners
+    take([[6, 6], [7, 7], [8, 8]], 2);
+    take([[0, 8], [1, 7], [2, 6]], 2);           // anti diagonal, corners
+    take([[6, 2], [7, 1], [8, 0]], 2);
+    empties.add(4 * SIZE + 4);                    // the crossing cell
+    take([[3, 3], [5, 5]], 1);                    // one more from each diagonal
+    take([[3, 5], [5, 3]], 1);                    // keeps the center block at 3
     for (let b = 0; b < SIZE; b++) {
       const r0 = Math.floor(b / BOX) * BOX, c0 = (b % BOX) * BOX;
       const cells = [];
@@ -77,7 +85,8 @@
 
   let values = SOLUTION.map((row, r) => row.map((v, c) => (GIVEN[r][c] ? v : 0)));
   let litBoxes = new Set();
-  let diagDone = false;
+  let diagDone = false;        // main diagonal → Education Street
+  let diag2Done = false;       // anti diagonal → Experience Street
   let solved = false;
   let selected = null;
   let cells = [];
@@ -91,6 +100,7 @@
   const storefrontsEl = document.getElementById("storefronts");
   const toastEl = document.getElementById("toast");
   const streetBtn = document.getElementById("street-btn");
+  const streetBtn2 = document.getElementById("street-btn2");
   const cheatTab = document.getElementById("cheat-tab");
   const cheatPanel = document.getElementById("cheat-panel");
   const cheatGrid = document.getElementById("cheat-grid");
@@ -109,6 +119,7 @@
       cell.dataset.c = c;
       cell.setAttribute("role", "gridcell");
       if (r === c) cell.classList.add("diag");
+      if (r + c === SIZE - 1) cell.classList.add("diag2");
       if (GIVEN[r][c]) {
         cell.classList.add("given");
         cell.textContent = SOLUTION[r][c];
@@ -133,8 +144,11 @@
 
   function updateAria(cell, r, c) {
     const v = GIVEN[r][c] ? SOLUTION[r][c] : values[r][c];
+    const marks = [];
+    if (r === c) marks.push("on the Education Street diagonal");
+    if (r + c === SIZE - 1) marks.push("on the Experience Street diagonal");
     cell.setAttribute("aria-label",
-      `Row ${r + 1}, column ${c + 1}${r === c ? ", on the street diagonal" : ""}: ${v ? v : "empty"}`);
+      `Row ${r + 1}, column ${c + 1}${marks.length ? ", " + marks.join(" and ") : ""}: ${v ? v : "empty"}`);
   }
 
   /* ---------- number pad ---------- */
@@ -354,7 +368,12 @@
     if (!diagDone) {
       let all = true;
       for (let i = 0; i < SIZE; i++) if (!isCorrect(i, i)) all = false;
-      if (all) lightDiagonal(true);
+      if (all) lightDiagonal("education", true);
+    }
+    if (!diag2Done) {
+      let all = true;
+      for (let i = 0; i < SIZE; i++) if (!isCorrect(i, SIZE - 1 - i)) all = false;
+      if (all) lightDiagonal("experience", true);
     }
     if (!solved) {
       let all = true;
@@ -390,13 +409,19 @@
     }
   }
 
-  function lightDiagonal(celebrate) {
-    diagDone = true;
-    for (let i = 0; i < SIZE; i++) cells[i][i].classList.add("diag-lit");
-    streetBtn.hidden = false;
+  function lightDiagonal(kind, celebrate) {
+    if (kind === "education") {
+      diagDone = true;
+      for (let i = 0; i < SIZE; i++) cells[i][i].classList.add("diag-lit");
+      streetBtn.hidden = false;
+    } else {
+      diag2Done = true;
+      for (let i = 0; i < SIZE; i++) cells[i][SIZE - 1 - i].classList.add("diag2-lit");
+      streetBtn2.hidden = false;
+    }
     if (celebrate) {
-      toast("The street lights are on…");
-      setTimeout(() => Street.open(), 900);
+      toast(kind === "education" ? "The street lights are on…" : "The office lights are on…");
+      setTimeout(() => Street.open(kind), 900);
     }
   }
 
@@ -406,7 +431,8 @@
     toast("You solved it — the whole street is yours. 🎆");
   }
 
-  streetBtn.addEventListener("click", () => Street.open());
+  streetBtn.addEventListener("click", () => Street.open("education"));
+  streetBtn2.addEventListener("click", () => Street.open("experience"));
 
   /* ---------- autosolve (the cheat) ---------- */
 
@@ -452,7 +478,7 @@
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
         solution: SOLUTION, given: GIVEN,
-        values, lit: [...litBoxes], diagDone, solved
+        values, lit: [...litBoxes], diagDone, diag2Done, solved
       }));
     } catch (e) { /* private browsing — play on without saving */ }
   }
@@ -473,7 +499,8 @@
       }
     }
     (data.lit || []).forEach(b => lightBox(b, false));
-    if (data.diagDone) lightDiagonal(false);
+    if (data.diagDone) lightDiagonal("education", false);
+    if (data.diag2Done) lightDiagonal("experience", false);
     solved = Boolean(data.solved);
   }
 

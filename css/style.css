@@ -239,6 +239,28 @@ body {
   filter: drop-shadow(0 0 6px rgba(255,179,71,.8));
 }
 
+/* the second street: cyan dashes on the anti-diagonal */
+.cell.diag2::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg,
+    transparent 42%,
+    rgba(85,230,255,.2) 46%,
+    rgba(85,230,255,.2) 54%,
+    transparent 58%);
+  pointer-events: none;
+}
+
+.cell.diag2.diag2-lit::before {
+  background: linear-gradient(45deg,
+    transparent 40%,
+    rgba(85,230,255,.7) 46%,
+    rgba(85,230,255,.7) 54%,
+    transparent 60%);
+  filter: drop-shadow(0 0 6px rgba(85,230,255,.8));
+}
+
 /* a block that's been completed glows warm */
 .cell.done-box { background: rgba(255,179,71,.07); }
 .cell.done-box.entry { color: var(--amber); text-shadow: 0 0 12px rgba(255,179,71,.55); }
@@ -284,6 +306,7 @@ body {
 
 .how strong { color: var(--chalk); }
 .amber { color: var(--amber); }
+.cyan { color: var(--cyan); }
 
 .board-actions {
   display: flex;
@@ -333,6 +356,17 @@ body {
   color: var(--amber);
   border-color: var(--amber);
   box-shadow: 0 0 18px rgba(255,179,71,.35);
+}
+
+.btn-street2 {
+  color: var(--cyan);
+  border-color: rgba(85,230,255,.4);
+}
+
+.btn-street2:hover {
+  color: var(--cyan);
+  border-color: var(--cyan);
+  box-shadow: 0 0 18px rgba(85,230,255,.3);
 }
 
 /* ---------- about me ---------- */
@@ -1037,6 +1071,18 @@ body {
     var(--amber) 0 46px, transparent 46px 90px);
   box-shadow: 0 0 14px rgba(255,179,71,.55);
   opacity: .85;
+}
+
+/* Experience Street runs cyan */
+.street[data-street="experience"] .street-road::after {
+  background: repeating-linear-gradient(90deg,
+    var(--cyan) 0 46px, transparent 46px 90px);
+  box-shadow: 0 0 14px rgba(85,230,255,.55);
+}
+
+.street[data-street="experience"] .street-name {
+  color: var(--cyan);
+  text-shadow: 0 0 10px rgba(85,230,255,.6), 0 0 40px rgba(85,230,255,.3);
 }
 
 /* milestones: lamppost + hanging sign */

@@ -16,6 +16,13 @@
   const pin = document.getElementById("globe-pin");
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* real country outlines, generated from Natural Earth data */
+  if (typeof WORLD_PATH === "string") {
+    const land = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    land.setAttribute("d", WORLD_PATH);
+    document.getElementById("globe-land").appendChild(land);
+  }
+
   /* Tbilisi: 44.8°E → map x 249.8; the globe centers svg x=100 */
   const TBILISI_X = (44.8 + 180) / 360 * 400;
   const END = 100 - TBILISI_X;      // ≈ -150: Georgia front and center

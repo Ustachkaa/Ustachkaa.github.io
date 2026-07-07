@@ -131,6 +131,18 @@ const PORTFOLIO = {
   ],
 
   /* ------------------------------------------------------------
+     EXPERIENCE STREET — jobs and work, oldest first.
+     Unlocked by completing the second (cyan) diagonal.
+     `type` options here: internship (mid-rise with an awning),
+     office (glass tower), future (under construction).
+     ------------------------------------------------------------ */
+  experience: [
+    { type: "internship", years: "20XX", title: "Intern — Software Testing", place: "Company name", note: "What you tested, learned and shipped." },
+    { type: "office",     years: "20XX – 20XX", title: "Role title", place: "Company name", note: "What you owned and built." },
+    { type: "future",     years: "…", title: "Your company here?", place: "", note: "The street has room for more buildings." }
+  ],
+
+  /* ------------------------------------------------------------
      MUSIC — the girl with headphones in the corner.
      `endpoint` is your deployed now-playing URL (see
      spotify-backend/README.md). Until it's set — or whenever it

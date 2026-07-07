@@ -1,19 +1,23 @@
 /* ============================================================
-   STREET.JS — Education Street, a tiny platformer.
+   STREET.JS — the walkable streets, a tiny platformer.
 
-   A pixel girl walks the street with ← →, jumps with space.
-   Jump the cones, collect the stars. Near each milestone a
-   building rises behind the banner and her outfit changes —
-   graduation gown at university, backpack at school, hard hat
-   at the construction site of what's next.
+   A pixel girl walks with ← →, jumps with space. Jump the
+   cones, collect the stars. Near each milestone a building
+   rises behind the banner and her outfit changes.
 
-   Milestones come from PORTFOLIO.education; each entry's `type`
-   picks the building + outfit: school / university / certificate
-   / future. Exposes: Street.open(), Street.close()
+   Two streets share the engine:
+   · Education Street  — PORTFOLIO.education  (amber diagonal)
+   · Experience Street — PORTFOLIO.experience (cyan diagonal)
+
+   Milestone `type` picks the building + outfit:
+     school / university / certificate / office / internship / future
+
+   Exposes: Street.open(key), Street.close()
    ============================================================ */
 
 const Street = (() => {
   const overlay  = document.getElementById("street");
+  const nameEl   = overlay.querySelector(".street-name");
   const far      = document.getElementById("street-far");
   const mid      = document.getElementById("street-mid");
   const front    = document.getElementById("street-front");
@@ -23,14 +27,17 @@ const Street = (() => {
   const btnClose = document.getElementById("street-close");
   const starsEl  = document.getElementById("street-stars");
 
+  const STREETS = {
+    education:  { title: "Education Street",  items: () => PORTFOLIO.education },
+    experience: { title: "Experience Street", items: () => PORTFOLIO.experience }
+  };
+
   const GAP = 900;                 // distance between milestone lampposts
   const PAD = Math.max(window.innerWidth * 0.55, 520);
-  const worldWidth = PAD * 2 + (PORTFOLIO.education.length - 1) * GAP;
   const NEAR = 300;                // how close counts as "at" a milestone
 
   /* ---------- the pixel girl ---------- */
 
-  const SCALE = 4;                 // sprite is 12×16 pixels, drawn ×4
   const PAL = {
     k: "#14101E",  // outline / shoes / eyeliner
     h: "#B79762",  // dirty blonde hair
@@ -38,8 +45,8 @@ const Street = (() => {
     w: "#22283F",  // tank top (ink, like the DJ girl's)
     j: "#45619B",  // jeans
     g: "#2E3557",  // graduation gown
-    c: "#FFB347",  // amber: cap, sash, helmet, tank print
-    v: "#8B7CF7"   // violet: backpack
+    c: "#FFB347",  // amber: cap, sash, helmet, badge, tank print
+    v: "#8B7CF7"   // violet: backpack, lanyard
   };
 
   const HEAD = [
@@ -82,12 +89,20 @@ const Street = (() => {
     } else if (outfit === "certificate") {
       for (let r = 6; r <= 10; r++) set(r, 9 - (r - 6), "c");             // sash
       set(10, 5, "c");                                                     // medal
+    } else if (outfit === "office") {
+      set(6, 5, "v"); set(7, 5, "v");            // lanyard
+      set(8, 5, "c"); set(8, 6, "c");            // badge
     } else if (outfit === "future") {
       grid[0] = "...ccccc....".split("");        // hard hat
       grid[1] = "..ccccccc...".split("");
     }
     return grid;
   }
+
+  const OUTFIT_FOR = {
+    school: "school", university: "university", certificate: "certificate",
+    office: "office", internship: "office", future: "future"
+  };
 
   const spriteCanvas = document.createElement("canvas");
   spriteCanvas.width = 12;
@@ -116,7 +131,7 @@ const Street = (() => {
   /* ---------- buildings that rise behind the banners ---------- */
 
   function buildingSVG(type) {
-    const W = "#161C36", L = "#2A3354", A = "#FFB347", V = "#8B7CF7";
+    const W = "#161C36", L = "#2A3354", A = "#FFB347", V = "#8B7CF7", C = "#55E6FF";
     const win = (x, y, o) => `<rect x="${x}" y="${y}" width="16" height="22" rx="2" fill="${A}" opacity="${o}"/>`;
     if (type === "university") {
       let windows = "";
@@ -152,9 +167,37 @@ const Street = (() => {
         <rect x="36" y="36" width="368" height="228" rx="8" fill="none" stroke="${L}" stroke-width="2" stroke-dasharray="6 6"/>
         ${[80, 110, 140].map((y, i) => `<line x1="90" y1="${y}" x2="${350 - i * 40}" y2="${y}" stroke="${L}" stroke-width="6" stroke-linecap="round"/>`).join("")}
         <circle cx="330" cy="210" r="34" fill="${A}" opacity=".9"/>
-        <circle cx="330" cy="210" r="24" fill="none" stroke="${W}" stroke-width="3"/>
+        <circle cx="330" cy="210" r="24" fill="none" stroke="#EDEBF7" stroke-width="3"/>
         <polygon points="316,238 330,300 344,238" fill="${V}"/>
-        <text x="330" y="220" text-anchor="middle" font-size="26" fill="${W}">★</text>
+        <text x="330" y="220" text-anchor="middle" font-size="26" fill="#EDEBF7">★</text>
+      </svg>`;
+    }
+    if (type === "office") {
+      let windows = "";
+      for (let r = 0; r < 8; r++)
+        for (let c = 0; c < 4; c++)
+          windows += `<rect x="${64 + c * 44}" y="${90 + r * 40}" width="26" height="24" rx="2"
+            fill="${(r * 5 + c) % 3 ? A : C}" opacity="${(0.2 + ((r * 7 + c * 3) % 6) * 0.13).toFixed(2)}"/>`;
+      return `<svg width="300" height="440" viewBox="0 0 300 440" xmlns="http://www.w3.org/2000/svg">
+        <rect x="46" y="70" width="208" height="370" fill="${W}" stroke="${L}"/>
+        <rect x="46" y="70" width="208" height="14" fill="${L}"/>
+        <line x1="150" y1="70" x2="150" y2="30" stroke="${L}" stroke-width="4"/>
+        <circle cx="150" cy="26" r="5" fill="${C}"/>
+        <rect x="86" y="34" width="128" height="26" rx="6" fill="${W}" stroke="${C}" stroke-width="2"/>
+        <text x="150" y="53" text-anchor="middle" font-size="16" fill="${C}" font-family="monospace">WORK</text>
+        ${windows}
+        <rect x="122" y="384" width="56" height="56" rx="4" fill="${A}" opacity=".75"/>
+      </svg>`;
+    }
+    if (type === "internship") {
+      return `<svg width="320" height="300" viewBox="0 0 320 300" xmlns="http://www.w3.org/2000/svg">
+        <rect x="30" y="80" width="260" height="220" fill="${W}" stroke="${L}"/>
+        <rect x="20" y="64" width="280" height="20" rx="6" fill="${L}"/>
+        ${win(60, 120, .7)}${win(110, 120, .35)}${win(194, 120, .55)}${win(244, 120, .8)}
+        ${win(60, 180, .3)}${win(244, 180, .45)}
+        <path d="M110 220 L210 220 L226 250 L94 250 Z" fill="${V}" opacity=".8"/>
+        <rect x="134" y="220" width="52" height="80" rx="4" fill="${A}" opacity=".8"/>
+        <text x="160" y="108" text-anchor="middle" font-size="15" fill="${A}" font-family="monospace">FIRST BADGE</text>
       </svg>`;
     }
     /* future: a building still under construction */
@@ -175,28 +218,41 @@ const Street = (() => {
   const player = { x: 0, y: 0, vy: 0, facing: 1, grounded: true, moving: false };
   const input = { left: false, right: false };
   const PSPEED = 4.4, GRAV = 0.6, JUMP = 12.6;
-  const PBOX = { w: 30, h: 62 };
+  const PBOX = { w: 30 };
 
-  let milestones = [];     // {x, type, buildingEl, cardEl}
-  let obstacles = [];      // {x, w, h, el}
+  let currentKey = null;
+  let worldWidth = 0;
+  let milestones = [];     // {x, type, buildingEl}
+  let obstacles = [];      // {x, w, h}
   let stars = [];          // {x, y, el, got}
   let starCount = 0;
 
   let camera = 0, target = 0;
-  let built = false, rafId = null, playerEl = null, walkTimer = 0, walkFrame = false;
+  let rafId = null, playerEl = null, walkTimer = 0, walkFrame = false;
 
   function rng(seed) {
     let s = seed;
     return () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
   }
 
-  /* ---------- build the world ---------- */
+  /* ---------- build a street's world ---------- */
 
-  function build() {
-    if (built) return;
-    built = true;
+  function build(key) {
+    currentKey = key;
+    const items = STREETS[key].items();
+    worldWidth = PAD * 2 + (items.length - 1) * GAP;
+    overlay.dataset.street = key;
+    nameEl.textContent = STREETS[key].title;
 
-    const rand = rng(42);
+    far.innerHTML = "";
+    mid.innerHTML = "";
+    front.innerHTML = "";
+    milestones = [];
+    obstacles = [];
+    stars = [];
+    starCount = 0;
+
+    const rand = rng(key === "education" ? 42 : 77);
     const totalW = worldWidth + window.innerWidth;
 
     for (let x = 0; x < totalW; x += 90 + rand() * 120) {
@@ -227,7 +283,7 @@ const Street = (() => {
     }
 
     /* big buildings first, so they paint behind the lampposts */
-    PORTFOLIO.education.forEach((m, i) => {
+    items.forEach((m, i) => {
       const type = m.type || "school";
       const bg = document.createElement("div");
       bg.className = "building";
@@ -242,7 +298,7 @@ const Street = (() => {
     road.style.width = totalW + "px";
     front.appendChild(road);
 
-    PORTFOLIO.education.forEach((m, i) => {
+    items.forEach((m, i) => {
       const el = document.createElement("div");
       el.className = "milestone";
       el.style.left = (PAD + i * GAP) + "px";
@@ -268,7 +324,7 @@ const Street = (() => {
       const ox = x0 + GAP * (0.42 + rand() * 0.16);
       ob.style.left = ox + "px";
       front.appendChild(ob);
-      obstacles.push({ x: ox, w: ow, h: oh, el: ob });
+      obstacles.push({ x: ox, w: ow, h: oh });
 
       for (let sIdx = 0; sIdx < 4; sIdx++) {
         const sx = x0 + GAP * (0.3 + sIdx * 0.13);
@@ -298,7 +354,6 @@ const Street = (() => {
   }
 
   function update() {
-    /* walk */
     let vx = 0;
     if (input.left) { vx = -PSPEED; player.facing = -1; }
     if (input.right) { vx = PSPEED; player.facing = 1; }
@@ -306,7 +361,6 @@ const Street = (() => {
     const prevX = player.x;
     player.x = Math.min(Math.max(player.x + vx, 50), worldWidth - 50);
 
-    /* jump & gravity */
     player.y += player.vy;
     player.vy -= GRAV;
     if (player.y <= 0) { player.y = 0; player.vy = 0; player.grounded = true; }
@@ -318,7 +372,6 @@ const Street = (() => {
       if (overlapX && player.y < ob.h) { player.x = prevX; break; }
     }
 
-    /* stars */
     for (const st of stars) {
       if (st.got) continue;
       if (Math.abs(player.x - st.x) < 34 && Math.abs(player.y + 30 - st.y) < 44) {
@@ -335,10 +388,9 @@ const Street = (() => {
     for (const m of milestones) {
       const near = Math.abs(player.x - m.x) < NEAR;
       m.buildingEl.classList.toggle("show", near);
-      if (near) outfit = m.type;
+      if (near) outfit = OUTFIT_FOR[m.type] || "base";
     }
 
-    /* sprite frame */
     let legs = "idle";
     if (!player.grounded) legs = "jump";
     else if (player.moving) {
@@ -347,7 +399,6 @@ const Street = (() => {
     }
     drawSprite(legs, outfit, player.facing);
 
-    /* place player & move camera */
     playerEl.style.left = player.x + "px";
     playerEl.style.bottom = `calc(22% + ${player.y}px)`;
 
@@ -396,8 +447,9 @@ const Street = (() => {
 
   /* ---------- open / close ---------- */
 
-  function open() {
-    build();
+  function open(key) {
+    if (!STREETS[key]) key = "education";
+    if (currentKey !== key) build(key);
     overlay.hidden = false;
     document.body.style.overflow = "hidden";
     player.x = Math.max(PAD - 320, 60);

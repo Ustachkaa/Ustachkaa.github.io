@@ -51,13 +51,15 @@
       <p class="how">
         Classic rules: fill every row, column and 3×3 block with <strong>1–9</strong>.
         Each finished block switches on one project below — most of the board is
-        already done for you. The <span class="amber">amber dashes</span> mark the
-        street — finish that diagonal to walk it.
+        already done for you. The <span class="amber">amber dashes</span> mark
+        Education Street and the <span class="cyan">cyan dashes</span> mark
+        Experience Street — finish a diagonal to walk it.
       </p>
 
       <div class="board-actions">
         <button class="btn" id="reset">Start over</button>
         <button class="btn btn-street" id="street-btn" hidden>↟ Walk Education Street</button>
+        <button class="btn btn-street2" id="street-btn2" hidden>↟ Walk Experience Street</button>
       </div>
     </section>
 
@@ -183,18 +185,8 @@
         <!-- the world, drawn three times so the spin never shows a seam -->
         <g clip-path="url(#globe-clip)">
           <g class="globe-map" id="globe-map">
-            <g id="globe-land" fill="#1E2745" stroke="rgba(255,179,71,.25)" stroke-width="1">
-              <path d="M28 38 Q45 26 70 30 Q95 28 108 40 Q112 52 100 58 Q108 64 100 74 Q90 92 78 96 Q70 108 62 96 Q40 86 34 66 Q22 52 28 38 Z"/>
-              <path d="M112 22 Q126 18 130 28 Q124 38 112 34 Q108 26 112 22 Z"/>
-              <path d="M100 108 Q116 100 124 112 Q132 128 124 146 Q118 162 110 164 Q102 150 100 132 Q94 116 100 108 Z"/>
-              <path d="M196 46 Q210 36 224 42 Q236 40 240 50 Q234 62 224 60 Q210 68 202 62 Q194 54 196 46 Z"/>
-              <path d="M196 78 Q214 70 228 78 Q240 84 236 102 Q230 124 220 140 Q212 154 206 140 Q196 118 192 98 Q190 86 196 78 Z"/>
-              <path d="M240 36 Q270 22 305 30 Q335 34 340 52 Q332 66 315 64 Q322 80 308 86 Q294 96 282 88 Q270 100 262 88 Q246 76 244 60 Q238 48 240 36 Z"/>
-              <path d="M272 92 Q282 88 286 98 Q284 112 276 118 Q268 108 272 92 Z"/>
-              <path d="M326 132 Q340 124 352 132 Q358 144 348 154 Q334 158 326 150 Q320 140 326 132 Z"/>
-              <ellipse cx="308" cy="108" rx="7" ry="4"/>
-              <ellipse cx="322" cy="116" rx="5" ry="3"/>
-            </g>
+            <!-- real country outlines injected from js/worldmap.js -->
+            <g id="globe-land" fill="#1E2745" stroke="rgba(255,179,71,.3)" stroke-width=".4"></g>
             <use href="#globe-land" x="-400"/>
             <use href="#globe-land" x="400"/>
           </g>
@@ -253,6 +245,7 @@
   <script src="js/street.js"></script>
   <script src="js/app.js"></script>
   <script src="js/jukebox.js"></script>
+  <script src="js/worldmap.js"></script>
   <script src="js/globe.js"></script>
 </body>
 </html>
