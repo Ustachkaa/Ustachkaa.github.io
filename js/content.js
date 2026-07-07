@@ -78,11 +78,18 @@ const PORTFOLIO = {
      EDUCATION STREET
      One entry per glowing sign along the street, oldest first.
      Unlocked by completing the marked diagonal on the board.
+     `type` picks the building that rises behind the banner and
+     the outfit the girl wears there:
+       "school"      → schoolhouse, backpack
+       "university"  → grand campus building, graduation cap & gown
+       "certificate" → giant sealed certificate, honour sash
+       "future"      → building under construction, hard hat
      ------------------------------------------------------------ */
   education: [
-    { years: "20XX – 20XX", title: "High School", place: "City, Country", note: "Where it started." },
-    { years: "20XX – 20XX", title: "BSc — Your Degree", place: "University name", note: "Thesis, favourite courses, honours…" },
-    { years: "20XX – …",    title: "What's next", place: "", note: "The street keeps going." }
+    { type: "school",      years: "20XX – 20XX", title: "High School", place: "City, Country", note: "Where it started." },
+    { type: "university",  years: "20XX – 20XX", title: "BSc — Your Degree", place: "University name", note: "Thesis, favourite courses, honours…" },
+    { type: "certificate", years: "20XX", title: "Certifications", place: "Issuer names", note: "List your certificates here." },
+    { type: "future",      years: "20XX – …", title: "What's next", place: "", note: "The street keeps going." }
   ],
 
   /* ------------------------------------------------------------

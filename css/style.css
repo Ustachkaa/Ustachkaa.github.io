@@ -647,6 +647,7 @@ body {
   bottom: 22%;
   width: 320px;
   transform: translateX(-50%);
+  z-index: 3;
 }
 
 .lamppost {
@@ -717,25 +718,102 @@ body {
 
 .milestone-note { font-size: 13px; color: var(--muted); margin-top: 8px; }
 
-/* the walker: a glowing orb hopping along the line */
-.walker {
+/* the pixel girl */
+.player {
   position: absolute;
-  bottom: calc(22% + 10px);
-  left: 50vw;
-  width: 18px;
-  height: 18px;
-  margin-left: -9px;
-  border-radius: 50%;
-  background: var(--cyan);
-  box-shadow: 0 0 18px 6px rgba(85,230,255,.55);
-  animation: hop .55s infinite alternate ease-in-out;
+  bottom: 22%;
+  width: 48px;
+  height: 64px;
+  margin-left: -24px;
   z-index: 5;
+  filter: drop-shadow(0 0 10px rgba(85,230,255,.25));
 }
 
-@keyframes hop {
-  from { transform: translateY(0) scale(1, .92); }
-  to   { transform: translateY(-26px) scale(.94, 1); }
+.player-sprite {
+  width: 48px;
+  height: 64px;
+  image-rendering: pixelated;
 }
+
+/* collectible stars */
+.star {
+  position: absolute;
+  font-size: 24px;
+  color: var(--amber);
+  text-shadow: 0 0 12px rgba(255,179,71,.8);
+  margin-left: -12px;
+  animation: star-bob 1.6s infinite alternate ease-in-out;
+  z-index: 4;
+  user-select: none;
+}
+
+@keyframes star-bob {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-10px); }
+}
+
+.star.got {
+  animation: star-pop .5s forwards;
+}
+
+@keyframes star-pop {
+  40% { transform: translateY(-18px) scale(1.7); opacity: 1; }
+  100% { transform: translateY(-34px) scale(.2); opacity: 0; }
+}
+
+/* obstacles to jump over */
+.obstacle {
+  position: absolute;
+  bottom: 22%;
+  z-index: 4;
+}
+
+.obstacle.cone {
+  width: 30px;
+  height: 30px;
+  margin-left: -15px;
+  background: linear-gradient(180deg, var(--amber) 0 30%, #E2593B 30% 55%, var(--amber) 55% 75%, #E2593B 75%);
+  clip-path: polygon(50% 0, 68% 88%, 100% 88%, 100% 100%, 0 100%, 0 88%, 32% 88%);
+  filter: drop-shadow(0 0 6px rgba(255,179,71,.3));
+}
+
+.obstacle.trash {
+  width: 34px;
+  height: 46px;
+  margin-left: -17px;
+  background: linear-gradient(180deg, #262C48 0 18%, #1B2140 18%);
+  border: 1px solid var(--line);
+  border-radius: 4px 4px 3px 3px;
+}
+
+.obstacle.trash::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: -3px;
+  right: -3px;
+  height: 7px;
+  background: #2E3557;
+  border-radius: 3px;
+}
+
+/* buildings that rise behind the banners */
+.building {
+  position: absolute;
+  bottom: 22%;
+  transform: translateX(-50%) translateY(60px);
+  opacity: 0;
+  transition: transform 1s cubic-bezier(.2, .8, .3, 1), opacity 1s;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.building.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.building svg { display: block; filter: drop-shadow(0 0 30px rgba(255,179,71,.1)); }
 
 .street-ui {
   position: absolute;
@@ -765,6 +843,16 @@ body {
   letter-spacing: .1em;
 }
 
+.street-stars {
+  position: absolute;
+  top: 30px;
+  left: 28px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--amber);
+  text-shadow: 0 0 10px rgba(255,179,71,.5);
+}
+
 .street-controls {
   position: absolute;
   bottom: 5%;
@@ -774,6 +862,8 @@ body {
   gap: 14px;
   pointer-events: auto;
 }
+
+.street-jump { color: var(--cyan); border-color: rgba(85,230,255,.4); }
 
 .street-move {
   width: 54px;
@@ -849,8 +939,9 @@ body {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .flicker { animation: none; }
-  .walker { animation: none; }
+  .star { animation: none; }
   .cell.wrong { animation: none; }
   .store-shutter { transition: none; }
+  .building { transition: opacity .3s; }
   .toast { transition: opacity .2s; }
 }
