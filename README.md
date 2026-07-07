@@ -10,6 +10,7 @@ The homepage is a playable 9×9 sudoku on a night street. A fresh puzzle is deal
 - **Complete the marked diagonal** (the amber dashes) → *Education Street* opens: a tiny platformer. A pixel girl walks with ← →, jumps with space, dodges cones and collects stars. Near each milestone banner a building rises behind it — a grand campus at university, a schoolhouse at school, a giant sealed certificate, a construction crane for what's next — and her outfit changes to match (graduation gown, backpack, sash, hard hat).
 - **Complete the whole board** → grand finale.
 - **In a hurry?** The cheat sheet folded into the top-right corner shows the full solution and can solve the board for you.
+- **The girl with headphones** in the bottom-left corner shows what Mariam is listening to on Spotify right now (or her last-played song) — "Listen with Mariam" plays it in an embedded player while you solve. Live data needs the tiny free backend in `spotify-backend/` (see its README); until then it shows the fallback song from `js/content.js`.
 
 Progress is saved in the browser, and "Start over" resets it.
 

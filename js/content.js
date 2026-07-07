@@ -93,6 +93,24 @@ const PORTFOLIO = {
   ],
 
   /* ------------------------------------------------------------
+     MUSIC — the girl with headphones in the corner.
+     `endpoint` is your deployed now-playing URL (see
+     spotify-backend/README.md). Until it's set — or whenever it
+     can't be reached — the widget shows `fallback` instead.
+     To get a track's id: Spotify → Share → Copy song link →
+     the id is the part after /track/ (before any ?).
+     ------------------------------------------------------------ */
+  music: {
+    endpoint: "",
+    fallback: {
+      title: "Pick my anthem in content.js",
+      artist: "Mariam",
+      trackId: "",          // e.g. "3AJwUDP919kvQ9QcozQPxg"
+      albumArt: ""
+    }
+  },
+
+  /* ------------------------------------------------------------
      CONTACT — always visible in the footer, no puzzle required.
      ------------------------------------------------------------ */
   contact: [
