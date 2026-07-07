@@ -171,6 +171,64 @@
     </div>
   </aside>
 
+  <!-- The globe: where Mariam is right now -->
+  <aside class="geo" id="geo">
+    <div class="geo-panel" id="geo-panel" hidden>
+      <svg class="globe" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <clipPath id="globe-clip"><circle cx="100" cy="100" r="88"/></clipPath>
+        </defs>
+        <!-- ocean -->
+        <circle cx="100" cy="100" r="88" fill="#0E1226" stroke="#C9812E" stroke-width="2"/>
+        <!-- the world, drawn three times so the spin never shows a seam -->
+        <g clip-path="url(#globe-clip)">
+          <g class="globe-map" id="globe-map">
+            <g id="globe-land" fill="#1E2745" stroke="rgba(255,179,71,.25)" stroke-width="1">
+              <path d="M28 38 Q45 26 70 30 Q95 28 108 40 Q112 52 100 58 Q108 64 100 74 Q90 92 78 96 Q70 108 62 96 Q40 86 34 66 Q22 52 28 38 Z"/>
+              <path d="M112 22 Q126 18 130 28 Q124 38 112 34 Q108 26 112 22 Z"/>
+              <path d="M100 108 Q116 100 124 112 Q132 128 124 146 Q118 162 110 164 Q102 150 100 132 Q94 116 100 108 Z"/>
+              <path d="M196 46 Q210 36 224 42 Q236 40 240 50 Q234 62 224 60 Q210 68 202 62 Q194 54 196 46 Z"/>
+              <path d="M196 78 Q214 70 228 78 Q240 84 236 102 Q230 124 220 140 Q212 154 206 140 Q196 118 192 98 Q190 86 196 78 Z"/>
+              <path d="M240 36 Q270 22 305 30 Q335 34 340 52 Q332 66 315 64 Q322 80 308 86 Q294 96 282 88 Q270 100 262 88 Q246 76 244 60 Q238 48 240 36 Z"/>
+              <path d="M272 92 Q282 88 286 98 Q284 112 276 118 Q268 108 272 92 Z"/>
+              <path d="M326 132 Q340 124 352 132 Q358 144 348 154 Q334 158 326 150 Q320 140 326 132 Z"/>
+              <ellipse cx="308" cy="108" rx="7" ry="4"/>
+              <ellipse cx="322" cy="116" rx="5" ry="3"/>
+            </g>
+            <use href="#globe-land" x="-400"/>
+            <use href="#globe-land" x="400"/>
+          </g>
+        </g>
+        <!-- graticule, fixed to the viewer like a real globe -->
+        <g fill="none" stroke="rgba(255,179,71,.16)" stroke-width="1">
+          <ellipse cx="100" cy="100" rx="58" ry="88"/>
+          <ellipse cx="100" cy="100" rx="26" ry="88"/>
+          <line x1="100" y1="12" x2="100" y2="188"/>
+          <line x1="14" y1="100" x2="186" y2="100"/>
+          <line x1="24" y1="56" x2="176" y2="56"/>
+          <line x1="24" y1="144" x2="176" y2="144"/>
+        </g>
+        <!-- the pin lands on Tbilisi -->
+        <g class="globe-pin" id="globe-pin">
+          <circle class="globe-pin-ring" cx="100" cy="54" r="7" fill="none" stroke="#FFB347" stroke-width="1.6"/>
+          <path d="M100 40 Q108 40 108 48 Q108 54 100 62 Q92 54 92 48 Q92 40 100 40 Z" fill="#FF5C8A"/>
+          <circle cx="100" cy="48" r="3" fill="#EDEBF7"/>
+        </g>
+      </svg>
+      <p class="geo-caption">Currently in <strong>Tbilisi, Georgia</strong></p>
+      <p class="geo-sub">GMT+4 · come say gamarjoba 👋</p>
+    </div>
+    <button class="geo-toggle" id="geo-toggle" aria-expanded="false" aria-controls="geo-panel" aria-label="See where Mariam is right now">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6">
+        <circle cx="13" cy="13" r="11"/>
+        <ellipse cx="13" cy="13" rx="5" ry="11"/>
+        <line x1="2" y1="13" x2="24" y2="13"/>
+        <line x1="4" y1="7" x2="22" y2="7"/>
+        <line x1="4" y1="19" x2="22" y2="19"/>
+      </svg>
+    </button>
+  </aside>
+
   <!-- Project window: grows out of a clicked storefront -->
   <div class="store-modal" id="store-modal" hidden>
     <div class="store-modal-backdrop" id="store-modal-backdrop"></div>
@@ -195,5 +253,6 @@
   <script src="js/street.js"></script>
   <script src="js/app.js"></script>
   <script src="js/jukebox.js"></script>
+  <script src="js/globe.js"></script>
 </body>
 </html>

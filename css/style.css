@@ -26,6 +26,9 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* the hidden attribute always wins, even over display:flex */
+[hidden] { display: none !important; }
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -833,6 +836,104 @@ body {
   .jukebox-panel { width: min(240px, calc(100vw - 116px)); }
 }
 
+/* ---------- the globe in the corner ---------- */
+
+.geo {
+  position: fixed;
+  right: 16px;
+  bottom: 18px;
+  z-index: 65;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.geo-toggle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--amber);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,.45);
+  transition: border-color .15s, box-shadow .15s, transform .15s;
+}
+
+.geo-toggle:hover {
+  border-color: var(--amber-dim);
+  box-shadow: 0 8px 24px rgba(0,0,0,.45), 0 0 18px rgba(255,179,71,.25);
+  transform: translateY(-2px);
+}
+
+.geo-panel {
+  width: 232px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px 16px 14px;
+  box-shadow: 0 24px 60px rgba(0,0,0,.55);
+  text-align: center;
+}
+
+.globe {
+  width: 200px;
+  height: 200px;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 0 24px rgba(255,179,71,.12));
+}
+
+.globe-map { will-change: transform; }
+
+.globe-pin {
+  opacity: 0;
+  transform-origin: 100px 62px;
+}
+
+.globe-pin.landed {
+  opacity: 1;
+  animation: pin-drop .45s cubic-bezier(.2, .9, .3, 1.4);
+}
+
+@keyframes pin-drop {
+  0% { opacity: 0; transform: translateY(-14px) scale(.4); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.globe-pin-ring {
+  transform-origin: 100px 54px;
+  animation: pin-pulse 2s infinite ease-out;
+}
+
+@keyframes pin-pulse {
+  0% { transform: scale(.4); opacity: .9; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.geo-caption {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--chalk);
+}
+
+.geo-caption strong { color: var(--amber); }
+
+.geo-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+@media (max-width: 700px) {
+  .geo-panel { width: 200px; }
+  .globe { width: 168px; height: 168px; }
+}
+
 /* ---------- toast ---------- */
 
 .toast {
@@ -1245,4 +1346,6 @@ body {
   .store.lit:hover { transform: none; }
   .store-modal-backdrop { animation: none; }
   .store-modal-panel { transition: none; }
+  .globe-pin.landed { animation: none; }
+  .globe-pin-ring { animation: none; opacity: .5; }
 }
