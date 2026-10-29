@@ -15,8 +15,8 @@ const PORTFOLIO = {
      One string per paragraph.
      ------------------------------------------------------------ */
   about: [
-    "I'm Mariam Ustiashvili — a software engineer from Georgia who likes problems that look like games, and games that are secretly problems.",
-    "I studied Software Engineering at the University of Debrecen in Hungary, where I gravitated toward quality assurance and testing — I enjoy breaking software carefully so that users never see it break. Along the way I've automated test suites, trained Unity ML-Agents, classified movies with NLP, and built things for students like me.",
+    "I'm Mariam Ustiashvili — a full-stack software engineer from Tbilisi, Georgia who likes problems that look like games, and games that are secretly problems.",
+    "I studied Computer Science at the University of Debrecen in Hungary, after four years as a freelance QA tester on uTest, carefully breaking products like Disney+, Google and Wolt so their users never saw them break. Today I'm a Junior Software Engineer at NGT Group, building Qmatic-based queue management systems and leading my team's adoption of agentic AI tools like Claude Code.",
     "This site is how I think: give people something playful, and keep the serious work just underneath. Every solved block below opens a piece of it."
   ],
 
@@ -32,80 +32,86 @@ const PORTFOLIO = {
      THE NINE PROJECTS
      They sit in a 3×3 grid that mirrors the sudoku blocks:
      finishing the top-left block lights project 1, and so on.
-     Titles are seeded from your existing project folders —
-     rewrite the tags/notes and add real links.
      ------------------------------------------------------------ */
   projects: [
     {
-      sign: "SideQuest",
-      tag: "Mobile app · in progress",
-      note: "A mobile side-project I'm building under the playmode-labs flag.",
-      href: "https://github.com/playmode-labs",
+      sign: "Bearings",
+      tag: "TypeScript · Express + React",
+      note: "An investing tutor: lessons, calculators, a practice portfolio and market alerts.",
+      href: "https://github.com/Ustachkaa/Bearings",
       details: [
-        "Still under wraps — the repo goes public when it's ready. Ask me about it and I'll happily talk your ear off."
+        "A personal investing companion for first-time, long-term investors: a 26-lesson course with worked maths and quizzes, 18 calculators, and live prices for any stock, ETF, index or crypto with a transparent, rule-based stance explained in plain words.",
+        "Watchlist rules (dips, RSI, golden cross, big daily moves) fire in-app and email alerts, and a practice portfolio trades pretend money at real prices with a journal that asks why on every trade."
       ]
     },
     {
-      sign: "DemoBlaze Automation",
-      tag: "QA automation · Selenium",
-      note: "An automated end-to-end test suite for the DemoBlaze demo shop.",
-      href: "",
+      sign: "Anyform",
+      tag: "SaaS · Next.js + Fastify",
+      note: "Any file, any format: a file-converter SaaS with job queues, workers and billing.",
+      href: "https://github.com/Ustachkaa/anyform",
       details: [
-        "Covers the core shopping flows — browsing, cart, checkout — with automated UI tests built around Selenium, structured so new test cases drop in without touching the plumbing."
-      ]
-    },
-    {
-      sign: "Saucedemo Testing",
-      tag: "Software testing",
-      note: "A software-testing deep dive into the Saucedemo store.",
-      href: "https://github.com/Ustachkaa/SaucedemoSoftwareTestingProject",
-      details: [
-        "Test design, execution and reporting for the classic Saucedemo application — from exploratory passes to repeatable automated checks."
-      ]
-    },
-    {
-      sign: "Chameleon Color Detector",
-      tag: "Computer vision",
-      note: "A chameleon that turns whatever color you show it.",
-      href: "",
-      details: [
-        "A computer-vision toy: show it a color and the chameleon shifts to match. Equal parts image processing and fun."
-      ]
-    },
-    {
-      sign: "Movie Genre Identifier",
-      tag: "NLP · machine learning",
-      note: "Guessing a film's genre from its description alone.",
-      href: "",
-      details: [
-        "An NLP project that classifies movies by their plot summaries — text preprocessing, feature extraction, and a classifier trained to tell a thriller from a romcom."
+        "Converts video, audio, images, documents, spreadsheets, presentations and ebooks between formats. A Next.js 15 front end talks to a Fastify API; jobs run on a Postgres-backed pg-boss queue and a worker driving ffmpeg, LibreOffice, pandoc, ImageMagick and more.",
+        "PostgreSQL with Prisma, S3-compatible storage, Stripe billing behind a provider interface, and Docker Compose for a single-host deploy."
       ]
     },
     {
       sign: "Student Den",
-      tag: "Student platform",
-      note: "A platform made for students, by a student.",
-      href: "",
+      tag: "Flutter · Firebase · BSc thesis",
+      note: "A mobile companion app for international students.",
+      href: "https://github.com/Ustachkaa/student_den",
       details: [
-        "Built around what students actually need day to day — from finding their footing in a new city to finding each other."
+        "My Computer Science thesis project: a Flutter app that helps international students with local services, maps, student discounts and cultural integration.",
+        "Firebase Authentication and Firestore for real-time user data, custom UI components, navigation flow and error-state handling."
       ]
     },
     {
-      sign: "ML-Agents Experiments",
-      tag: "Unity · reinforcement learning",
-      note: "Teaching Unity agents to see, steer and survive.",
-      href: "",
+      sign: "Web Locker",
+      tag: "Android · Kotlin + Compose",
+      note: "Locks a tablet into a single web app — built for ticket machines and kiosks.",
+      href: "https://github.com/Ustachkaa/Web_Locker",
       details: [
-        "A series of reinforcement-learning experiments in Unity ML-Agents — ray perception sensors, continuous control, and a hummingbird that learned to feed itself."
+        "A kiosk app running in Device Owner mode: hardware buttons are blocked, the app can't be unpinned, and the web app fills an immersive full-screen WebView.",
+        "Administrators exit with an X button or a 10-second press. Built with Kotlin, Jetpack Compose and Material 3."
       ]
     },
     {
-      sign: "Queen of Hearts",
-      tag: "CSS art",
-      note: "A playing card drawn entirely in CSS — no images.",
-      href: "",
+      sign: "Spots",
+      tag: "Express + React + Leaflet",
+      note: "A map of places you want to see, with routes between them.",
+      href: "https://github.com/Ustachkaa/Spots",
       details: [
-        "Every heart, curve and crown is a styled div. Pointless in the best way, and a great exercise in layout control."
+        "Paste a TikTok, Instagram or Google Maps link and the place lands on the map, with its caption, thumbnail or address pulled in automatically.",
+        "Filter by category or visited status, then plan a walking, cycling or driving route through your picks, reorder it into the shortest trip, and hand it to Google Maps."
+      ]
+    },
+    {
+      sign: "Saucedemo Automation",
+      tag: "QA · Selenium + Cucumber",
+      note: "A BDD test suite for the Saucedemo store, written in Java.",
+      href: "https://github.com/Ustachkaa/Saucedemo_Website_Automation_Testing_Project",
+      details: [
+        "Automated end-to-end tests covering login, product browsing and sorting, the cart and the full checkout flow.",
+        "Scenarios written in Gherkin and run with Cucumber, Selenium WebDriver, JUnit and Maven."
+      ]
+    },
+    {
+      sign: "Library REST API",
+      tag: "API design",
+      note: "A complete REST API design for a library management system.",
+      href: "https://github.com/Ustachkaa/REST_API_for_Library_System",
+      details: [
+        "40+ documented endpoints for books, borrowing and returns, reservation queues and fines, plus scheduled jobs for overdue checks and due-date reminders.",
+        "HATEOAS (Richardson level 3), JWT authentication, pagination, meaningful status codes and a caching strategy."
+      ]
+    },
+    {
+      sign: "Movie Genre Identifier",
+      tag: "NLP · TensorFlow",
+      note: "Guessing a film's genre from its synopsis alone.",
+      href: "https://github.com/Ustachkaa/Movie_Genre_Identifier_NLP_Project",
+      details: [
+        "An NLP classifier that predicts genres from plot summaries: tokenisation, stop-word removal and lemmatisation, then models built with TensorFlow, Keras and scikit-learn.",
+        "Evaluated with accuracy, precision, recall and F1, and runnable straight from Google Colab."
       ]
     },
     {
@@ -132,9 +138,12 @@ const PORTFOLIO = {
        "future"      → building under construction, hard hat
      ------------------------------------------------------------ */
   education: [
-    { type: "school",      years: "20XX – 20XX", title: "High School", place: "Georgia", note: "Where the puzzle habit started." },
-    { type: "university",  years: "20XX – 20XX", title: "BSc Software Engineering", place: "University of Debrecen, Hungary", note: "Thesis: a mobile companion system for students." },
-    { type: "certificate", years: "Ongoing", title: "Certifications & Trainings", place: "", note: "The collection keeps growing — ask me about the latest." },
+    { type: "certificate", years: "02/2021", title: "Responsive Web Design", place: "Certification", note: "Where the front-end habit started." },
+    { type: "certificate", years: "09/2024", title: "Microsoft Certified: Azure Fundamentals", place: "Microsoft", note: "Cloud concepts, Azure services, security and governance." },
+    { type: "certificate", years: "10/2024", title: "IT Specialist in Python", place: "Certification", note: "Information Technology Specialist in Python." },
+    { type: "certificate", years: "02/2025", title: "HTML5 Application Development", place: "Certification", note: "Building apps with HTML5, CSS and JavaScript." },
+    { type: "university",  years: "Graduated 06/2025", title: "BSc Computer Science", place: "University of Debrecen, Hungary", note: "Thesis: Student Den, a mobile companion app for international students." },
+    { type: "certificate", years: "06/2026", title: "Anthropic Claude courses", place: "Anthropic", note: "Claude Code in Action, Claude Code 101, AI Fluency, AI Capabilities and Limitations, Claude 101." },
     { type: "future",      years: "…", title: "What's next", place: "", note: "The street keeps going." }
   ],
 
@@ -145,8 +154,9 @@ const PORTFOLIO = {
      office (glass tower), future (under construction).
      ------------------------------------------------------------ */
   experience: [
-    { type: "internship", years: "20XX", title: "Intern — Software Testing", place: "Company name", note: "What you tested, learned and shipped." },
-    { type: "office",     years: "20XX – 20XX", title: "Role title", place: "Company name", note: "What you owned and built." },
+    { type: "office",     years: "01/2020 – 04/2024", title: "Freelance QA Tester", place: "uTest · remote", note: "Functional, exploratory, regression and localisation testing for products including Disney+, Google and Wolt." },
+    { type: "internship", years: "02/2025 – 04/2025", title: "Web Development Intern", place: "Lime Light Renhold AS, Oslo · remote", note: "A 320-hour full-stack internship: responsive front ends in HTML, CSS and JavaScript, versioned with Git." },
+    { type: "office",     years: "12/2025 – now", title: "Junior Software Engineer (Full-Stack)", place: "NGT Group, Tbilisi", note: "Full-stack features for Qmatic-based queue management systems; led the team's adoption of Claude Code and agentic AI tools." },
     { type: "future",     years: "…", title: "Your company here?", place: "", note: "The street has room for more buildings." }
   ],
 
@@ -173,10 +183,9 @@ const PORTFOLIO = {
      CONTACT — always visible in the footer, no puzzle required.
      ------------------------------------------------------------ */
   contact: [
-    { label: "Email", value: "mariam.ustiashvili@ngt.ge", href: "mailto:mariam.ustiashvili@ngt.ge" },
+    { label: "Email", value: "ustachka@gmail.com", href: "mailto:ustachka@gmail.com" },
     { label: "GitHub", value: "github.com/Ustachkaa", href: "https://github.com/Ustachkaa" },
-    /* paste your profile URL into href to switch this on: */
-    { label: "LinkedIn", value: "linkedin.com/in/…", href: "" }
+    { label: "LinkedIn", value: "linkedin.com/in/mariam-ustiashvili-949992204", href: "https://www.linkedin.com/in/mariam-ustiashvili-949992204" }
   ],
 
   /* ------------------------------------------------------------
