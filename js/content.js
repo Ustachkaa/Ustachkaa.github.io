@@ -15,9 +15,10 @@ const PORTFOLIO = {
      One string per paragraph.
      ------------------------------------------------------------ */
   about: [
-    "I'm Mariam Ustiashvili — a full-stack software engineer from Tbilisi, Georgia who likes problems that look like games, and games that are secretly problems.",
-    "I studied Computer Science at the University of Debrecen in Hungary, after four years as a freelance QA tester on uTest, carefully breaking products like Disney+, Google and Wolt so their users never saw them break. Today I'm a Junior Software Engineer at NGT Group, building Qmatic-based queue management systems and leading my team's adoption of agentic AI tools like Claude Code.",
-    "This site is how I think: give people something playful, and keep the serious work just underneath. Every solved block below opens a piece of it."
+    "Hi, I'm Mariam — a full-stack software engineer in Tbilisi, Georgia. I like problems that look like games, and games that are secretly problems, which is why you're looking at a sudoku instead of a résumé.",
+    "I came into engineering through the back door: four years as a freelance QA tester on uTest, hunting bugs in Disney+, Google and Wolt before their users could find them. It taught me to see software the way people actually break it, and it still shapes how I build: handle the edge case, test the unhappy path, never trust \"it works on my machine.\"",
+    "My Computer Science degree at the University of Debrecen in Hungary ended with Student Den, a Flutter app for international students like me. Now I'm a Junior Software Engineer at NGT Group, building full-stack features for Qmatic queue-management systems, and I led my team's move to agentic AI development with Claude Code.",
+    "Outside work I build the tools I wish existed: an investing tutor, a file converter, a map for all the places I keep saving from TikTok. Solve a block below and one of them is yours to open."
   ],
 
   /* ------------------------------------------------------------
